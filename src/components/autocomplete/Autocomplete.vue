@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="autocomplete control"
-        :class="{ 'is-expanded': expanded }"
-        ref="autocomplete_control">
+    <div class="autocomplete control" :class="{'is-expanded': expanded}">
         <b-input
             v-model="newValue"
             ref="input"
@@ -28,7 +25,7 @@
         <transition name="fade">
             <div
                 class="dropdown-menu"
-                :class="{ 'is-opened-top': isTopDirection }"
+                :class="{ 'is-opened-top': !isListInViewportVertically }"
                 v-show="isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"
                 ref="dropdown">
                 <div class="dropdown-content" v-show="isActive">
@@ -89,18 +86,7 @@
             keepFirst: Boolean,
             clearOnSelect: Boolean,
             openOnFocus: Boolean,
-            customFormatter: Function,
-            onScrollDirection: Boolean,
-            directionPrefer: {
-                type: String,
-                default: 'is-top',
-                validator: (value) => {
-                    return [
-                        'is-top',
-                        'is-bottom'
-                    ].indexOf(value) >= 0
-                }
-            }
+            customFormatter: Function
         },
         data() {
             return {
@@ -109,9 +95,10 @@
                 isActive: false,
                 newValue: this.value,
                 newAutocomplete: this.autocomplete || 'off',
-                isTopDirection: true,
+                isListInViewportVertically: true,
                 hasFocus: false,
-                preferTop: this.directionPrefer === 'is-top' ? true : false || false
+                _isAutocomplete: true,
+                _elementRef: 'input'
             }
         },
         computed: {
@@ -156,7 +143,6 @@
             }
         },
         watch: {
-
             /**
              * When dropdown is toggled, check the visibility to know when
              * to open upwards.
@@ -166,6 +152,10 @@
                     this.calcDropdownInViewportVertical()
                 } else {
                     this.$nextTick(() => this.setHovered(null))
+                    // Timeout to wait for the animation to finish before recalculating
+                    setTimeout(() => {
+                        this.calcDropdownInViewportVertical()
+                    }, 100)
                 }
             },
 
@@ -206,8 +196,6 @@
                 if (this.keepFirst) {
                     this.selectFirstOption(value)
                 }
-
-                this.$nextTick(() => this.calcDropdownInViewportVertical())
             }
         },
         methods: {
@@ -302,27 +290,18 @@
             calcDropdownInViewportVertical() {
                 this.$nextTick(() => {
                     /**
-                     * return if dropdown is inactive
-                     */
-                    if (!this.isActive) return
-                    /**
                      * this.$refs.dropdown may be undefined
                      * when Autocomplete is conditional rendered
                      */
                     if (this.$refs.dropdown === undefined) return
 
                     const rect = this.$refs.dropdown.getBoundingClientRect()
-                    const parentRect = this.$refs.autocomplete_control.getBoundingClientRect()
 
-                    this.isTopDirection = this.preferTop
-                    /* eslint-disable */               
-                    ? parentRect.top >= rect.height ? true : parentRect.bottom + rect.height < (window.innerHeight || document.documentElement.clientHeight) ? false : true
-                    : parentRect.bottom + rect.height < (window.innerHeight || document.documentElement.clientHeight) ? false : true
-
-                    // this.isTopDirection = parentRect.top >= rect.height*(this.topDirectionPrefer?2:1) ? true :
-                    // this.isTopDirection = parentRect.bottom + rect.height > window.innerHeight && parentRect.top + rect.height > window.innerHeight throw err('there no space for dropdown-menu, add more elements');
-                    // this.isTopDirection = parentRect.bottom + rect.height <= (window.innerHeight || document.documentElement.clientHeight) ? parentRect.top>rect.height?true:false : true;
-                    /* eslint-enable */
+                    this.isListInViewportVertically = (
+                        rect.top >= 0 &&
+                        rect.bottom <= (window.innerHeight ||
+                            document.documentElement.clientHeight)
+                    )
                 })
             },
 
@@ -390,25 +369,18 @@
                 const currentValue = this.getValue(this.selected)
                 if (currentValue && currentValue === this.newValue) return
                 this.$emit('typing', this.newValue)
-            },
-            onScroll() {
-                if (this.onScrollDirection) {
-                    this.calcDropdownInViewportVertical()
-                }
             }
         },
         created() {
             if (typeof window !== 'undefined') {
                 document.addEventListener('click', this.clickedOutside)
-                window.addEventListener('resize', this.calcropdownInViewportVertical)
-                window.addEventListener('scroll', this.onScroll)
+                window.addEventListener('resize', this.calcDropdownInViewportVertical)
             }
         },
         beforeDestroy() {
             if (typeof window !== 'undefined') {
                 document.removeEventListener('click', this.clickedOutside)
                 window.removeEventListener('resize', this.calcDropdownInViewportVertical)
-                window.removeEventListener('scroll', this.onScroll)
             }
         }
     }
