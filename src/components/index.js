@@ -1,4 +1,5 @@
 import Autocomplete from './autocomplete'
+import Autocomplete2 from './autocomplete2'
 import Button from './button'
 import Checkbox from './checkbox'
 import Collapse from './collapse'
@@ -30,6 +31,7 @@ import Upload from './upload'
 
 export {
     Autocomplete,
+    Autocomplete2,
     Button,
     Checkbox,
     Clockpicker,
