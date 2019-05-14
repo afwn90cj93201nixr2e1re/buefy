@@ -2,7 +2,8 @@
     <td
         v-if="visible"
         :class="rootClasses"
-        :data-label="label">
+      <!--  :data-label="label" -->
+        >
         <span><slot/></span>
     </td>
 </template>
