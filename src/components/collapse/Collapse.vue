@@ -1,6 +1,6 @@
 <template>
     <div class="collapse">
-        <slot name="header"/>
+        <slot name="header" :open="isOpen"/>
         <div class="collapse-trigger" @click="toggle">
             <slot name="trigger" :open="isOpen" />
         </div>
