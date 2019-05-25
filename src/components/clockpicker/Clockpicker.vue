@@ -11,7 +11,7 @@
                 ref="input"
                 slot="trigger"
                 autocomplete="off"
-                :value="formatValue(dateSelected)"
+                :value="formatValue(computedValue)"
                 :placeholder="placeholder"
                 :size="size"
                 :icon="icon"
@@ -21,9 +21,11 @@
                 :readonly="!editable"
                 :rounded="rounded"
                 v-bind="$attrs"
-                @change.native="onChange($event.target.value)"
-                @focus="$emit('focus', $event)"
-                @blur="$emit('blur', $event) && checkHtml5Validity()"/>
+                @click.native.stop="toggle(true)"
+                @keyup.native.enter="toggle(true)"
+                @change.native="onChangeNativePicker"
+                @focus="handleOnFocus"
+                @blur="onBlur() && checkHtml5Validity()"/>
 
             <div
                 class="card"
@@ -83,7 +85,7 @@
                             :min="minFaceValue"
                             :max="maxFaceValue"
                             :face-numbers="isSelectingHour ? hours : minutes"
-                            :disabled-values="faceDisabledValues()"
+                            :disabled-values="faceDisabledValues"
                             :double="isSelectingHour && isHourFormat24"
                             :value="isSelectingHour ? hoursSelected : minutesSelected"
                             @input="onClockInput"
@@ -102,7 +104,7 @@
             ref="input"
             type="time"
             autocomplete="off"
-            :value="formatHHMMSS(value)"
+            :value="formatHHMMSS(computedValue)"
             :placeholder="placeholder"
             :size="size"
             :icon="icon"
@@ -113,16 +115,17 @@
             :disabled="disabled"
             :readonly="false"
             v-bind="$attrs"
+            @click.native.stop="toggle(true)"
+            @keyup.native.enter="toggle(true)"
             @change.native="onChangeNativePicker"
-            @focus="$emit('focus', $event)"
-            @blur="$emit('blur', $event) && checkHtml5Validity()"/>
+            @focus="handleOnFocus"
+            @blur="onBlur() && checkHtml5Validity()"/>
     </div>
 
 </template>
 
 <script>
     import TimepickerMixin from '../../utils/TimepickerMixin'
-
     import Dropdown from '../dropdown/Dropdown'
     import DropdownItem from '../dropdown/DropdownItem'
     import Input from '../input/Input'
@@ -205,6 +208,9 @@
             },
             faceSize() {
                 return this.pickerSize - (outerPadding * 2)
+            },
+            faceDisabledValues() {
+                return this.isSelectingHour ? this.isHourDisabled : this.isMinuteDisabled
             }
         },
         methods: {
@@ -227,13 +233,7 @@
                     this.meridienSelected = value
                     this.onMeridienChange(value)
                 }
-            },
-            faceDisabledValues() {
-                return this.isSelectingHour ? this.isHourDisabled : this.isMinuteDisabled
             }
-        },
-        created() {
-            this.incrementMinutes = 5
         }
     }
 </script>

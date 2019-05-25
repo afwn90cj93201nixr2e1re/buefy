@@ -2,15 +2,39 @@
 
 ## 0.7.6
 
-* Add ``label`` slot to field (thanks @yxngl)
+### New features
+
+* **Update Bulma to 0.7.5**
+* Add ``header-checkable`` prop to table
+* #1424 Prevent close on click when ``multiple`` dropdown
 
 ### Fixes
 
-* Fix #1351 tabs is-disabled css rule
+* Fix #1150 dropdown z-index on mobile
+* Fix #1418 timepicker and clockpicker `input` event emit
+
+## 0.7.6
+
+### New features
+
+* Add ``label`` slot to field (thanks @yxngl)
+* Add ``footer`` slot to autocomplete (thanks @LeoMouyna)
+* Add ``open-on-focus`` prop and improved accessibility for timepicker and clockpicker
+* Add ``multiple`` prop to dropdown
+
+### Fixes
+
+* Fix #817 radio button off-center issue
+* Fix #1347, #1361 datepicker v-model and initial toggle
+* Fix #1351 tabs `is-disabled` css rule
 * Fix #1352 numberinput when empty string
 * Fix #1382 numberinput layout
+* Fix #1390 missing prop to dialog type
+* Fix #1402 radio button on IE11 (thanks @timEulitz)
 
 ## 0.7.5
+
+### New features
 
 * **New component: Numberinput**, [see docs](https://buefy.org/documentation/numberinput)
 * **Loading improved**: can show a custom content, [see docs](https://buefy.org/documentation/loading)
