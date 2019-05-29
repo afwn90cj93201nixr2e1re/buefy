@@ -1,9 +1,7 @@
 <template>
     <td
         v-if="visible"
-        :class="rootClasses"
-      <!--  :data-label="label" -->
-        >
+        :class="rootClasses">
         <span><slot/></span>
     </td>
 </template>

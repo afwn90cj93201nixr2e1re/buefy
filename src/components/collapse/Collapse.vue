@@ -1,7 +1,10 @@
 <template>
     <div class="collapse">
-        <slot name="header" :open="isOpen"/>
-        <div class="collapse-trigger" @click="toggle">
+        <slot name="header" :open123="isOpen"/>
+        <div
+            v-if="isTrigger"
+            class="collapse-trigger"
+            @click="toggle">
             <slot name="trigger" :open="isOpen" />
         </div>
         <transition :name="animation">
@@ -31,6 +34,10 @@
             ariaId: {
                 type: String,
                 default: ''
+            },
+            isTrigger: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
