@@ -25,7 +25,7 @@
         props: {
             open: {
                 type: Boolean,
-                default: true
+                default: false
             },
             animation: {
                 type: String,
