@@ -13,7 +13,7 @@
                 :aria-expanded="isOpen"
                 class="collapse-content"
                 v-show="isOpen">
-                <slot/>
+                <slot name="body"/>
             </div>
         </transition>
     </div>
