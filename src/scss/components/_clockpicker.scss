@@ -64,6 +64,10 @@
         padding-bottom: 0;
     }
     
+   .card {
+        border-radius: $radius;
+    }
+
     .card-content {
         padding: $padding-outer;
     }
