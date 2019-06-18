@@ -21,6 +21,7 @@
                 :disabled="disabled"
                 :readonly="!editable"
                 v-bind="$attrs"
+                :use-html5-validation="useHtml5Validation"
                 @click.native="onInputClick"
                 @keyup.native.enter="togglePicker(true)"
                 @change.native="onChange($event.target.value)"
@@ -160,6 +161,7 @@
             :disabled="disabled"
             :readonly="false"
             v-bind="$attrs"
+            :use-html5-validation="useHtml5Validation"
             @change.native="onChangeNativePicker"
             @focus="handleOnFocus"
             @blur="onBlur"/>
@@ -197,9 +199,7 @@
             const year = s[0].length === 4 ? s[0] : s[1]
             const month = s[0].length === 2 ? s[0] : s[1]
             if (year && month) {
-                const d = new Date(parseInt(year, 10), parseInt(month - 1, 10), 1)
-                d.setHours(0, 0, 0, 0)
-                return d
+                return new Date(parseInt(year, 10), parseInt(month - 1, 10), 1, 0, 0, 0, 0)
             }
         }
         return null

@@ -5,11 +5,16 @@
 ### New features
 
 * Add ``label-position`` prop to field
+* Add ``full-screen`` prop to modal
 
 ### Fixes
 
+* Fix timepicker and clockpicker force new Date object on ``input`` event
 * Fix #1450 clockpicker rounded style (thanks @atinybeardedman)
 * Fix #1455 margins to taginput (thanks @francoism90)
+* Fix #1460 long press click on plus/minus buttons to numberinput
+* Fix #1469 ``use-html5-validation`` prop to numberinput
+* Fix #1470 override ``label-weight`` Bulma variable
 
 ## 0.7.7
 
