@@ -31,7 +31,9 @@
                 :class="{ 'is-opened-top': isTopDirection }"
                 v-show="isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"
                 ref="dropdown">
+                <div @click="closeDropdown" class="buttons has-addons is-right"><b-icon icon="times" size="is-small"/></div>
                 <div class="dropdown-content" v-show="isActive">
+                    
                     <div
                         v-if="hasHeaderSlot"
                         class="dropdown-item">
@@ -58,10 +60,11 @@
                         class="dropdown-item is-disabled">
                         <slot name="empty"/>
                     </div>
+                    <div
                         v-if="hasFooterSlot"
                         class="dropdown-item">
                         <slot name="footer"/>
-                    </div>	
+                    </div>
                 </div>
             </div>
         </transition>
@@ -72,11 +75,13 @@
     import { getValueByPath } from '../../utils/helpers'
     import FormElementMixin from '../../utils/FormElementMixin'
     import Input from '../input/Input'
+    import Icon from '../icon/Icon'
 
     export default {
         name: 'BAutocomplete2',
         components: {
-            [Input.name]: Input
+            [Input.name]: Input,
+            [Icon.name]: Icon
         },
         mixins: [FormElementMixin],
         inheritAttrs: false,
@@ -95,6 +100,7 @@
             openOnFocus: Boolean,
             customFormatter: Function,
             onScrollDirection: Boolean,
+            hasCloseButton: Boolean,
             directionPrefer: {
                 type: String,
                 default: 'is-top',
@@ -123,20 +129,22 @@
              * White-listed items to not close when clicked.
              * Add input, dropdown and all children.
              */
-            whiteList() {
+            /* whiteList() {
                 const whiteList = []
                 whiteList.push(this.$refs.input.$el.querySelector('input'))
-                whiteList.push(this.$refs.dropdown)
+                whiteList.push(this.$refs.dropdown);
+				console.log(this.whiteList);
                 // Add all chidren from dropdown
                 if (this.$refs.dropdown !== undefined) {
-                    const children = this.$refs.dropdown.querySelectorAll('*')
+                    const children = this.$refs.dropdown.querySelectorAll('*');
+					console.log(this.children);
                     for (const child of children) {
                         whiteList.push(child)
                     }
                 }
 
                 return whiteList
-            },
+            }, */
 
             /**
              * Check if exists default slot
@@ -162,6 +170,7 @@
              * Check if exists "footer" slot
              */
             hasFooterSlot() {
+				console.log('has footer',!!this.$slots.footer);
                 return !!this.$slots.footer
             }
         },
@@ -244,7 +253,10 @@
                 }
                 closeDropdown && this.$nextTick(() => { this.isActive = false })
             },
-
+			closeDropdown(){
+				console.log('closeDropdown');
+				this.$nextTick(() => { this.isActive = false });
+			},
             /**
              * Select first option
              */
@@ -286,9 +298,11 @@
             /**
              * Close dropdown if clicked outside.
              */
-            clickedOutside(event) {
+    /*         clickedOutside(event) {
+				console.log(this.whiteList);
+				console.log(event.target);
                 if (this.whiteList.indexOf(event.target) < 0) this.isActive = false
-            },
+            }, */
 
             /**
              * Return display text for the input.
@@ -409,14 +423,14 @@
         },
         created() {
             if (typeof window !== 'undefined') {
-                document.addEventListener('click', this.clickedOutside)
+        //        document.addEventListener('click', this.clickedOutside)
                 window.addEventListener('resize', this.calcDropdownInViewportVertical)
                 window.addEventListener('scroll', this.onScroll)
             }
         },
         beforeDestroy() {
             if (typeof window !== 'undefined') {
-                document.removeEventListener('click', this.clickedOutside)
+            //    document.removeEventListener('click', this.clickedOutside)
                 window.removeEventListener('resize', this.calcDropdownInViewportVertical)
                 window.removeEventListener('scroll', this.onScroll)
             }
