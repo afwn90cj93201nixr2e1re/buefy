@@ -58,6 +58,10 @@
                         class="dropdown-item is-disabled">
                         <slot name="empty"/>
                     </div>
+                        v-if="hasFooterSlot"
+                        class="dropdown-item">
+                        <slot name="footer"/>
+                    </div>	
                 </div>
             </div>
         </transition>
@@ -153,6 +157,12 @@
              */
             hasHeaderSlot() {
                 return !!this.$slots.header
+            },
+			/**
+             * Check if exists "footer" slot
+             */
+            hasFooterSlot() {
+                return !!this.$slots.footer
             }
         },
         watch: {
@@ -400,7 +410,7 @@
         created() {
             if (typeof window !== 'undefined') {
                 document.addEventListener('click', this.clickedOutside)
-                window.addEventListener('resize', this.calcropdownInViewportVertical)
+                window.addEventListener('resize', this.calcDropdownInViewportVertical)
                 window.addEventListener('scroll', this.onScroll)
             }
         },
