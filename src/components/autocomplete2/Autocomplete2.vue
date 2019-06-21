@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="autocomplete control"
-        :class="{ 'is-expanded': expanded }"
-        ref="autocomplete_control">
+    <div class="autocomplete control" :class="{ 'is-expanded': expanded }" ref="autocomplete_control">
         <b-input
             v-model="newValue"
             ref="input"
@@ -14,6 +11,7 @@
             :icon-pack="iconPack"
             :maxlength="maxlength"
             :autocomplete="newAutocomplete"
+			:use-html5-validation="useHtml5Validation"																					
             v-bind="$attrs"
             @input="onInput"
             @focus="focused"
@@ -170,7 +168,6 @@
              * Check if exists "footer" slot
              */
             hasFooterSlot() {
-				console.log('has footer',!!this.$slots.footer);
                 return !!this.$slots.footer
             }
         },
@@ -254,7 +251,6 @@
                 closeDropdown && this.$nextTick(() => { this.isActive = false })
             },
 			closeDropdown(){
-				console.log('closeDropdown');
 				this.$nextTick(() => { this.isActive = false });
 			},
             /**
