@@ -19,7 +19,6 @@ exports.cssLoaders = function (options) {
   var cssLoader = {
     loader: 'css-loader',
     options: {
-      minimize: options.minimize,
       sourceMap: options.sourceMap
     }
   }

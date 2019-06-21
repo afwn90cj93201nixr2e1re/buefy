@@ -1,7 +1,7 @@
 var path = require('path')
 var utils = require('./utils')
 var config = require('../../config')
-
+const { VueLoaderPlugin } = require('vue-loader');
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -57,5 +57,8 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+	plugins: [
+		new VueLoaderPlugin()
+	]
 }

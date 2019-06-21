@@ -9,7 +9,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeJsPlugin = require('optimize-js-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require('terser-webpack-plugin');
 //var i = 0;
 
 
@@ -83,10 +83,6 @@ module.exports = function(options) {
 	  webpackConfig.optimization = {
 		  minimize: true,
 			minimizer: [new UglifyJsPlugin({
-				uglifyOptions: {
-				  warnings: false
-				  
-				},
 				sourceMap: false
 			})]
 	  };
