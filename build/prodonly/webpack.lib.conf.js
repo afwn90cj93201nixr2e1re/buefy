@@ -6,7 +6,7 @@ var config = require('../../config')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var OptimizeJsPlugin = require('optimize-js-plugin')
+//var OptimizeJsPlugin = require('optimize-js-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 const UglifyJsPlugin = require('terser-webpack-plugin');
@@ -86,11 +86,11 @@ module.exports = function(options) {
 				sourceMap: false
 			})]
 	  };
-    webpackConfig.plugins.push(
+/*     webpackConfig.plugins.push(
       new OptimizeJsPlugin({
         sourceMap: false
       })
-    )
+    ) */
     webpackConfig.plugins.push(
       new webpack.optimize.OccurrenceOrderPlugin()
     )
