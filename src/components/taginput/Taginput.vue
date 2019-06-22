@@ -123,11 +123,11 @@
             },
             confirmKeyCodes: {
                 type: Array,
-                default: () => [13, 188]
+                default: () => ['Enter', ',']
             },
             removeOnKeys: {
                 type: Array,
-                default: () => [8]
+                default: () => ['Backspace']
             },
             allowNew: Boolean,
             onPasteSeparators: {
@@ -303,13 +303,13 @@
             },
 
             keydown(event) {
-                if (this.removeOnKeys.indexOf(event.keyCode) !== -1 && !this.newTag.length) {
+                if (this.removeOnKeys.indexOf(event.key) !== -1 && !this.newTag.length) {
                     this.removeLastTag()
                 }
                 // Stop if is to accept select only
                 if (this.autocomplete && !this.allowNew) return
 
-                if (this.confirmKeyCodes.indexOf(event.keyCode) >= 0) {
+                if (this.confirmKeyCodes.indexOf(event.key) >= 0) {
                     event.preventDefault()
                     this.addTag()
                 }
