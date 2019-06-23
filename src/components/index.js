@@ -7,6 +7,7 @@ import Clockpicker from './clockpicker'
 import Datepicker from './datepicker'
 import Dialog from './dialog'
 import Dropdown from './dropdown'
+import Dropdown2 from './dropdown2'
 import Field from './field'
 import Icon from './icon'
 import Input from './input'
@@ -39,6 +40,7 @@ export {
     Datepicker,
     Dialog,
     Dropdown,
+    Dropdown2,
     Field,
     Icon,
     Input,
