@@ -24,6 +24,7 @@
                 ref="dropdownMenu"
                 class="dropdown-menu"
                 :aria-hidden="!isActive">
+				<div @click="toggle" class="buttons has-addons is-right"><b-icon icon="times" size="is-small"/></div>
                 <div
                     class="dropdown-content"
                     :role="ariaRoleMenu">
@@ -36,7 +37,8 @@
 
 <script>
     import config from '../../utils/config'
-
+	import Icon from '../icon/Icon'
+	
     export default {
         name: 'BDropdown2',
         props: {
@@ -130,21 +132,24 @@
              */
             selectItem(value) {
                 if (this.multiple) {
+					let isPush = false;
                     if (this.selected) {
-                        const index = this.selected.indexOf(value)
+                        const index = this.selected.indexOf(value);
                         if (index === -1) {
-                            this.selected.push(value)
+							isPush=true;
+                            this.selected.push(value);
                         } else {
-                            this.selected.splice(index, 1)
+							isPush=false;
+                            this.selected.splice(index, 1);
                         }
                     } else {
-                        this.selected = [value]
+                        this.selected = [value];
                     }
-                    this.$emit('change', this.selected,this.rindex)
+                    this.$emit('change', this.selected, isPush, value, this.rindex);
                 } else {
                     if (this.selected !== value) {
                         this.selected = value
-                        this.$emit('change', this.selected,this.rindex)
+                        this.$emit('change', this.selected, value, this.rindex)
                     }
                 }
                 this.$emit('input', this.selected)
@@ -164,43 +169,6 @@
             },
 
             /**
-             * White-listed items to not close when clicked.
-             */
-            isInWhiteList(el) {
-                if (el === this.$refs.dropdownMenu) return true
-                if (el === this.$refs.trigger) return true
-                // All chidren from dropdown
-                if (this.$refs.dropdownMenu !== undefined) {
-                    const children = this.$refs.dropdownMenu.querySelectorAll('*')
-                    for (const child of children) {
-                        if (el === child) {
-                            return true
-                        }
-                    }
-                }
-                // All children from trigger
-                if (this.$refs.trigger !== undefined) {
-                    const children = this.$refs.trigger.querySelectorAll('*')
-                    for (const child of children) {
-                        if (el === child) {
-                            return true
-                        }
-                    }
-                }
-
-                return false
-            },
-
-            /**
-             * Close dropdown if clicked outside.
-             */
-            clickedOutside(event) {
-                if (this.inline) return
-
-                if (!this.isInWhiteList(event.target)) this.isActive = false
-            },
-
-            /**
              * Toggle dropdown if it's not disabled.
              */
             toggle() {
@@ -213,16 +181,6 @@
                 } else {
                     this.isActive = !this.isActive
                 }
-            }
-        },
-        created() {
-            if (typeof window !== 'undefined') {
-                document.addEventListener('click', this.clickedOutside)
-            }
-        },
-        beforeDestroy() {
-            if (typeof window !== 'undefined') {
-                document.removeEventListener('click', this.clickedOutside)
             }
         }
     }
