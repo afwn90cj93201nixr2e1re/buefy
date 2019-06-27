@@ -20,6 +20,7 @@ import Pagination from './pagination'
 import Radio from './radio'
 import Select from './select'
 import Snackbar from './snackbar'
+import Snackbar2 from './snackbar2'
 import Steps from './steps'
 import Switch from './switch'
 import Table from './table'
@@ -54,6 +55,7 @@ export {
     Radio,
     Select,
     Snackbar,
+    Snackbar2,
     Steps,
     Switch,
     Table,
