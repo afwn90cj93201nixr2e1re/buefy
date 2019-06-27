@@ -49,6 +49,7 @@
                         &.is-#{$name2} {
                             .button {
                                 color: $color2;
+                                background: transparent;
                             }
                             .button:hover {
                                 background: darken($color, 5%);
