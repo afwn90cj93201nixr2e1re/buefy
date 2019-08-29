@@ -36,152 +36,152 @@
 </template>
 
 <script>
-    import config from '../../utils/config'
-	import Icon from '../icon/Icon'
-	
-    export default {
-        name: 'BDropdown2',
-        props: {
-            value: {
-                type: [String, Number, Boolean, Object, Array, Symbol, Function],
-                default: null
-            },
-            disabled: Boolean,
-            hoverable: Boolean,
-            inline: Boolean,
-            position: {
-                type: String,
-                validator(value) {
-                    return [
-                        'is-top-right',
-                        'is-top-left',
-                        'is-bottom-left'
-                    ].indexOf(value) > -1
-                }
-            },
-            mobileModal: {
-                type: Boolean,
-                default: () => {
-                    return config.defaultDropdownMobileModal
-                }
-            },
-            ariaRole: {
-                type: String,
-                default: ''
-            },
-            animation: {
-                type: String,
-                default: 'fade'
-            },
-            multiple: Boolean,
-            closeOnClick: {
-                type: Boolean,
-                default: true
-            },
-			rindex:{
-				type: Number,
-				default: undefined
-			}
-        },
-        data() {
-            return {
-                selected: this.value,
-                isActive: false,
-                isHoverable: this.hoverable,
-                _isDropdown: true // Used internally by DropdownItem
-            }
-        },
-        computed: {
-            rootClasses() {
-                return [this.position, {
-                    'is-disabled': this.disabled,
-                    'is-hoverable': this.hoverable,
-                    'is-inline': this.inline,
-                    'is-active': this.isActive || this.inline,
-                    'is-mobile-modal': this.isMobileModal
-                }]
-            },
-            isMobileModal() {
-                return this.mobileModal && !this.inline && !this.hoverable
-            },
-            ariaRoleMenu() {
-                return this.ariaRole === 'menu' || this.ariaRole === 'list' ? this.ariaRole : null
-            }
-        },
-        watch: {
-            /**
-             * When v-model is changed set the new selected item.
-             */
-            value(value) {
-                this.selected = value
-            },
+import config from '../../utils/config'
+import Icon from '../icon/Icon'
 
-            /**
-             * Emit event when isActive value is changed.
-             */
-            isActive(value) {
-                this.$emit('active-change', value)
+export default {
+    name: 'BDropdown2',
+    props: {
+        value: {
+            type: [String, Number, Boolean, Object, Array, Symbol, Function],
+            default: null
+        },
+        disabled: Boolean,
+        hoverable: Boolean,
+        inline: Boolean,
+        position: {
+            type: String,
+            validator(value) {
+                return [
+                    'is-top-right',
+                    'is-top-left',
+                    'is-bottom-left'
+                ].indexOf(value) > -1
             }
         },
-        methods: {
-            /**
-             * Click listener from DropdownItem.
-             *   1. Set new selected item.
-             *   2. Emit input event to update the user v-model.
-             *   3. Close the dropdown.
-             */
-            selectItem(value) {
-                if (this.multiple) {
-					let isPush = false;
-                    if (this.selected) {
-                        const index = this.selected.indexOf(value);
-                        if (index === -1) {
-							isPush=true;
-                            this.selected.push(value);
-                        } else {
-							isPush=false;
-                            this.selected.splice(index, 1);
-                        }
+        mobileModal: {
+            type: Boolean,
+            default: () => {
+                return config.defaultDropdownMobileModal
+            }
+        },
+        ariaRole: {
+            type: String,
+            default: ''
+        },
+        animation: {
+            type: String,
+            default: 'fade'
+        },
+        multiple: Boolean,
+        closeOnClick: {
+            type: Boolean,
+            default: true
+        },
+        rindex:{
+            type: Number,
+            default: undefined
+        }
+    },
+    data() {
+        return {
+            selected: this.value,
+            isActive: false,
+            isHoverable: this.hoverable,
+            _isDropdown: true // Used internally by DropdownItem
+        }
+    },
+    computed: {
+        rootClasses() {
+            return [this.position, {
+                'is-disabled': this.disabled,
+                'is-hoverable': this.hoverable,
+                'is-inline': this.inline,
+                'is-active': this.isActive || this.inline,
+                'is-mobile-modal': this.isMobileModal
+            }]
+        },
+        isMobileModal() {
+            return this.mobileModal && !this.inline && !this.hoverable
+        },
+        ariaRoleMenu() {
+            return this.ariaRole === 'menu' || this.ariaRole === 'list' ? this.ariaRole : null
+        }
+    },
+    watch: {
+        /**
+            * When v-model is changed set the new selected item.
+            */
+        value(value) {
+            this.selected = value
+        },
+
+        /**
+            * Emit event when isActive value is changed.
+            */
+        isActive(value) {
+            this.$emit('active-change', value)
+        }
+    },
+    methods: {
+        /**
+            * Click listener from DropdownItem.
+            *   1. Set new selected item.
+            *   2. Emit input event to update the user v-model.
+            *   3. Close the dropdown.
+            */
+        selectItem(value) {
+            if (this.multiple) {
+                let isPush = false;
+                if (this.selected) {
+                    const index = this.selected.indexOf(value);
+                    if (index === -1) {
+                        isPush=true;
+                        this.selected.push(value);
                     } else {
-                        this.selected = [value];
+                        isPush=false;
+                        this.selected.splice(index, 1);
                     }
-                    this.$emit('change', this.selected, isPush, value, this.rindex);
                 } else {
-                    if (this.selected !== value) {
-                        this.selected = value
-                        this.$emit('change', this.selected, value, this.rindex)
-                    }
+                    this.selected = [value];
                 }
-                this.$emit('input', this.selected)
-                if (!this.multiple) {
-                    this.isActive = !this.closeOnClick
-                    /*
-                     * breaking change
-                    if (this.hoverable && this.closeOnClick) {
-                        this.isHoverable = false
-                        // Timeout for the animation complete before destroying
-                        setTimeout(() => {
-                            this.isHoverable = true
-                        }, 250)
-                    }
-                    */
+                this.$emit('change', this.selected, isPush, value, this.rindex);
+            } else {
+                if (this.selected !== value) {
+                    this.selected = value
+                    this.$emit('change', this.selected, value, this.rindex)
                 }
-            },
+            }
+            this.$emit('input', this.selected)
+            if (!this.multiple) {
+                this.isActive = !this.closeOnClick
+                /*
+                    * breaking change
+                if (this.hoverable && this.closeOnClick) {
+                    this.isHoverable = false
+                    // Timeout for the animation complete before destroying
+                    setTimeout(() => {
+                        this.isHoverable = true
+                    }, 250)
+                }
+                */
+            }
+        },
 
-            /**
-             * Toggle dropdown if it's not disabled.
-             */
-            toggle() {
-                if (this.disabled) return
+        /**
+            * Toggle dropdown if it's not disabled.
+            */
+        toggle() {
+            if (this.disabled) return
 
-                if (!this.isActive) {
-                    // if not active, toggle after clickOutside event
-                    // this fixes toggling programmatic
-                    this.$nextTick(() => { this.isActive = !this.isActive })
-                } else {
-                    this.isActive = !this.isActive
-                }
+            if (!this.isActive) {
+                // if not active, toggle after clickOutside event
+                // this fixes toggling programmatic
+                this.$nextTick(() => { this.isActive = !this.isActive })
+            } else {
+                this.isActive = !this.isActive
             }
         }
     }
+}
 </script>
