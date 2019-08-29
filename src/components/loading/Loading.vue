@@ -51,16 +51,16 @@ export default {
     },
     methods: {
         /**
-            * Close the Modal if canCancel.
-            */
+        * Close the Modal if canCancel.
+        */
         cancel() {
             if (!this.canCancel || !this.isActive) return
 
             this.close()
         },
         /**
-            * Emit events, and destroy modal if it's programmatic.
-            */
+        * Emit events, and destroy modal if it's programmatic.
+        */
         close() {
             this.onCancel.apply(null, arguments)
             this.$emit('close')
@@ -76,8 +76,8 @@ export default {
             }
         },
         /**
-            * Keypress event that is bound to the document.
-            */
+        * Keypress event that is bound to the document.
+        */
         keyPress(event) {
             // Esc key
             if (event.keyCode === 27) this.cancel()

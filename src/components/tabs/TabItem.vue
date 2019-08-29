@@ -19,8 +19,8 @@ export default {
     },
     methods: {
         /**
-            * Activate tab, alter animation name based on the index.
-            */
+        * Activate tab, alter animation name based on the index.
+        */
         activate(oldIndex, index) {
             this.transitionName = index < oldIndex
                 ? 'slide-next'
@@ -29,8 +29,8 @@ export default {
         },
 
         /**
-            * Deactivate tab, alter animation name based on the index.
-            */
+        * Deactivate tab, alter animation name based on the index.
+        */
         deactivate(oldIndex, index) {
             this.transitionName = index < oldIndex
                 ? 'slide-next'

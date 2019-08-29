@@ -55,11 +55,11 @@
                 ExFullScreenCode,
                 programmaticSyntax: `
                 // From inside Vue instance
-                this.$modal.open(props)
+                this.$buefy.modal.open(props)
 
                 // From outside Vue instance
-                import { ModalProgrammatic } from 'buefy/dist/components/modal'
-                ModalProgrammatic.open(props)`
+                import { ModalProgrammatic as Modal } from 'buefy'
+                Modal.open(props)`
             }
         }
     }

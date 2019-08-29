@@ -162,9 +162,9 @@ export default {
     },
     watch: {
         /**
-            * When v-model is changed:
-            *   1. Set internal value.
-            */
+        * When v-model is changed:
+        *   1. Set internal value.
+        */
         value(value) {
             this.newValue = value
         }
@@ -172,14 +172,14 @@ export default {
     methods: {
         decrement() {
             if (typeof this.minNumber === 'undefined' ||
-                (this.computedValue - this.stepNumber) >= this.minNumber) {
+            (this.computedValue - this.stepNumber) >= this.minNumber) {
                 const value = this.computedValue - this.stepNumber
                 this.computedValue = parseFloat(value.toFixed(this.stepDecimals))
             }
         },
         increment() {
             if (typeof this.maxNumber === 'undefined' ||
-                (this.computedValue + this.stepNumber) <= this.maxNumber) {
+            (this.computedValue + this.stepNumber) <= this.maxNumber) {
                 const value = this.computedValue + this.stepNumber
                 this.computedValue = parseFloat(value.toFixed(this.stepDecimals))
             }

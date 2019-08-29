@@ -8,11 +8,13 @@
                 'is-focused': isFocused
             }]"
             :disabled="disabled"
+            @click="focus"
             @keydown.prevent.enter="$refs.label.click()">
             <slot/>
             <input
                 v-model="computedValue"
                 type="checkbox"
+                ref="input"
                 @click.stop
                 :disabled="disabled"
                 :required="required"
@@ -28,8 +30,8 @@
 export default {
     name: 'BCheckboxButton',
     props: {
-        value: [String, Number, Boolean, Function, Object, Array, Symbol],
-        nativeValue: [String, Number, Boolean, Function, Object, Array, Symbol],
+        value: [String, Number, Boolean, Function, Object, Array],
+        nativeValue: [String, Number, Boolean, Function, Object, Array],
         disabled: Boolean,
         required: Boolean,
         name: String,
@@ -68,6 +70,12 @@ export default {
          */
         value(value) {
             this.newValue = value
+        }
+    },
+    methods: {
+        focus() {
+            // MacOS FireFox and Safari do not focus when clicked
+            this.$refs.input.focus()
         }
     }
 }

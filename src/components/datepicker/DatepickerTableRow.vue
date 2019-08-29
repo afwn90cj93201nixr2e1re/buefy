@@ -1,5 +1,8 @@
 <template>
     <div class="datepicker-row">
+        <a class="datepicker-cell is-week-number" v-if="showWeekNumber">
+            {{ getWeekNumber(week[6]) }}
+        </a>
         <template v-for="(day, index) in week">
             <a
                 v-if="selectableDate(day) && !disabled"
@@ -11,7 +14,8 @@
                 :disabled="disabled"
                 @click.prevent="emitChosenDate(day)"
                 @keydown.enter.prevent="emitChosenDate(day)"
-                @keydown.space.prevent="emitChosenDate(day)">
+                @keydown.space.prevent="emitChosenDate(day)"
+                @mouseenter="setRangeHoverEndDate(day)">
                 {{ day.getDate() }}
                 <div class="events" v-if="eventsDateMatch(day)">
                     <div
@@ -36,7 +40,10 @@
 export default {
     name: 'BDatepickerTableRow',
     props: {
-        selectedDate: Date,
+        selectedDate: {
+            type: [Date, Array]
+        },
+        hoveredDateRange: Array,
         week: {
             type: Array,
             required: true
@@ -55,9 +62,63 @@ export default {
         indicators: String,
         dateCreator: Function,
         nearbyMonthDays: Boolean,
-        nearbySelectableMonthDays: Boolean
+        nearbySelectableMonthDays: Boolean,
+        showWeekNumber: {
+            type: Boolean,
+            default: () => false
+        },
+        range: Boolean,
+        rulesForFirstWeek: {
+            type: Number,
+            default: () => 4
+        },
+        firstDayOfWeek: Number
     },
     methods: {
+        firstWeekOffset(year, dow, doy) {
+            // first-week day -- which january is always in the first week (4 for iso, 1 for other)
+            var fwd = 7 + dow - doy
+            // first-week day local weekday -- which local weekday is fwd
+            var firstJanuary = new Date(year, 0, fwd)
+            var fwdlw = (7 + firstJanuary.getDay() - dow) % 7
+            return -fwdlw + fwd - 1
+        },
+        daysInYear(year) {
+            return this.isLeapYear(year) ? 366 : 365
+        },
+        isLeapYear(year) {
+            return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
+        },
+        getSetDayOfYear(input) {
+            var dayOfYear = Math.round((input - new Date(input.getFullYear(), 0, 1)) / 864e5) + 1
+            return dayOfYear
+        },
+        weeksInYear(year, dow, doy) {
+            var weekOffset = this.firstWeekOffset(year, dow, doy)
+            var weekOffsetNext = this.firstWeekOffset(year + 1, dow, doy)
+            return (this.daysInYear(year) - weekOffset + weekOffsetNext) / 7
+        },
+        getWeekNumber(mom) {
+            var dow = this.firstDayOfWeek // first day of week
+            // Rules for the first week : 1 for the 1st January, 4 for the 4th January
+            var doy = this.rulesForFirstWeek
+            var weekOffset = this.firstWeekOffset(mom.getFullYear(), dow, doy)
+            var week = Math.floor((this.getSetDayOfYear(mom) - weekOffset - 1) / 7) + 1
+            var resWeek
+            var resYear
+            if (week < 1) {
+                resYear = mom.getFullYear() - 1
+                resWeek = week + this.weeksInYear(resYear, dow, doy)
+            } else if (week > this.weeksInYear(mom.getFullYear(), dow, doy)) {
+                resWeek = week - this.weeksInYear(mom.getFullYear(), dow, doy)
+                resYear = mom.getFullYear() + 1
+            } else {
+                resYear = mom.getFullYear()
+                resWeek = week
+            }
+
+            return resWeek
+        },
         /*
         * Check that selected day is within earliest/latest params and
         * is within this month
@@ -95,8 +156,8 @@ export default {
                     const disabledDate = this.unselectableDates[i]
                     validity.push(
                         day.getDate() !== disabledDate.getDate() ||
-                        day.getFullYear() !== disabledDate.getFullYear() ||
-                        day.getMonth() !== disabledDate.getMonth()
+                            day.getFullYear() !== disabledDate.getFullYear() ||
+                            day.getMonth() !== disabledDate.getMonth()
                     )
                 }
             }
@@ -150,18 +211,56 @@ export default {
                     return false
                 }
 
+                if (Array.isArray(dateTwo)) {
+                    return dateTwo.some((date) => (
+                        dateOne.getDate() === date.getDate() &&
+                        dateOne.getFullYear() === date.getFullYear() &&
+                        dateOne.getMonth() === date.getMonth()
+                    ))
+                }
                 return (dateOne.getDate() === dateTwo.getDate() &&
                     dateOne.getFullYear() === dateTwo.getFullYear() &&
                     dateOne.getMonth() === dateTwo.getMonth())
             }
 
+            function dateWithin(dateOne, dates) {
+                if (!Array.isArray(dates)) { return false }
+
+                return dateOne > dates[0] && dateOne < dates[1]
+            }
+
             return {
-                'is-selected': dateMatch(day, this.selectedDate),
+                'is-selected': dateMatch(day, this.selectedDate) || dateWithin(day, this.selectedDate),
+                'is-first-selected':
+                    dateMatch(day, Array.isArray(this.selectedDate) && this.selectedDate[0]),
+                'is-within-selected':
+                    dateWithin(day, this.selectedDate),
+                'is-last-selected':
+                    dateMatch(day, Array.isArray(this.selectedDate) && this.selectedDate[1]),
+                'is-within-hovered-range':
+                    this.hoveredDateRange && this.hoveredDateRange.length === 2 &&
+                    (dateMatch(day, this.hoveredDateRange) ||
+                        dateWithin(day, this.hoveredDateRange)),
+                'is-first-hovered': dateMatch(
+                    day,
+                    Array.isArray(this.hoveredDateRange) && this.hoveredDateRange[0]
+                ),
+                'is-within-hovered':
+                    dateWithin(day, this.hoveredDateRange),
+                'is-last-hovered': dateMatch(
+                    day,
+                    Array.isArray(this.hoveredDateRange) && this.hoveredDateRange[1]
+                ),
                 'is-today': dateMatch(day, this.dateCreator()),
                 'is-selectable': this.selectableDate(day) && !this.disabled,
                 'is-unselectable': !this.selectableDate(day) || this.disabled,
                 'is-invisible': !this.nearbyMonthDays && day.getMonth() !== this.month,
                 'is-nearby': this.nearbySelectableMonthDays && day.getMonth() !== this.month
+            }
+        },
+        setRangeHoverEndDate(day) {
+            if (this.range) {
+                this.$emit('rangeHoverEndDate', day)
             }
         }
     }

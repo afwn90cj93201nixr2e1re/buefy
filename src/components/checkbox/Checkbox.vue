@@ -4,11 +4,13 @@
         :class="[size, { 'is-disabled': disabled }]"
         ref="label"
         :disabled="disabled"
+        @click="focus"
         @keydown.prevent.enter="$refs.label.click()">
         <input
             v-model="computedValue"
             :indeterminate.prop="indeterminate"
             type="checkbox"
+            ref="input"
             @click.stop
             :disabled="disabled"
             :required="required"
@@ -25,8 +27,8 @@
 export default {
     name: 'BCheckbox',
     props: {
-        value: [String, Number, Boolean, Function, Object, Array, Symbol],
-        nativeValue: [String, Number, Boolean, Function, Object, Array, Symbol],
+        value: [String, Number, Boolean, Function, Object, Array],
+        nativeValue: [String, Number, Boolean, Function, Object, Array],
         indeterminate: Boolean,
         type: String,
         disabled: Boolean,
@@ -34,11 +36,11 @@ export default {
         name: String,
         size: String,
         trueValue: {
-            type: [String, Number, Boolean, Function, Object, Array, Symbol],
+            type: [String, Number, Boolean, Function, Object, Array],
             default: true
         },
         falseValue: {
-            type: [String, Number, Boolean, Function, Object, Array, Symbol],
+            type: [String, Number, Boolean, Function, Object, Array],
             default: false
         }
     },
@@ -64,6 +66,12 @@ export default {
          */
         value(value) {
             this.newValue = value
+        }
+    },
+    methods: {
+        focus() {
+            // MacOS FireFox and Safari do not focus when clicked
+            this.$refs.input.focus()
         }
     }
 }

@@ -14,7 +14,9 @@
                     class="modal-card-body"
                     :class="{ 'is-titleless': !title, 'is-flex': hasIcon }">
                     <div class="media">
-                        <div class="media-left" v-if="hasIcon">
+                        <div
+                            class="media-left"
+                            v-if="hasIcon && (icon || iconByType)">
                             <b-icon
                                 :icon="icon ? icon : iconByType"
                                 :pack="iconPack"
@@ -128,8 +130,8 @@ export default {
     },
     computed: {
         /**
-            * Icon name (MDI) based on the type.
-            */
+        * Icon name (MDI) based on the type.
+        */
         iconByType() {
             switch (this.type) {
                 case 'is-info':
@@ -150,9 +152,9 @@ export default {
     },
     methods: {
         /**
-            * If it's a prompt Dialog, validate the input.
-            * Call the onConfirm prop (function) and close the Dialog.
-            */
+        * If it's a prompt Dialog, validate the input.
+        * Call the onConfirm prop (function) and close the Dialog.
+        */
         confirm() {
             if (this.$refs.input !== undefined) {
                 if (!this.$refs.input.checkValidity()) {
@@ -167,8 +169,8 @@ export default {
         },
 
         /**
-            * Close the Dialog.
-            */
+        * Close the Dialog.
+        */
         close() {
             this.isActive = false
             // Timeout for the animation complete before destroying
@@ -180,9 +182,11 @@ export default {
     },
     beforeMount() {
         // Insert the Dialog component in body tag
-        this.$nextTick(() => {
-            document.body.appendChild(this.$el)
-        })
+        if (typeof window !== 'undefined') {
+            this.$nextTick(() => {
+                document.body.appendChild(this.$el)
+            })
+        }
     },
     mounted() {
         this.isActive = true

@@ -1,5 +1,8 @@
 <template>
-    <transition :name="animation">
+    <transition
+        :name="animation"
+        @after-enter="afterEnter"
+        @before-leave="beforeLeave">
         <div
             v-if="isActive"
             class="modal is-active"
@@ -8,7 +11,7 @@
             <div
                 class="animation-content"
                 :class="{ 'modal-content': !hasModalCard }"
-                :style="customStlye">
+                :style="customStyle">
                 <component
                     v-if="component"
                     v-bind="props"
@@ -19,12 +22,12 @@
                     v-else-if="content"
                     v-html="content"/>
                 <slot v-else/>
+                <button
+                    type="button"
+                    v-if="showX && !animating"
+                    class="modal-close is-large"
+                    @click="cancel('x')"/>
             </div>
-            <button
-                type="button"
-                v-if="showX"
-                class="modal-close is-large"
-                @click="cancel('x')"/>
         </div>
     </transition>
 </template>
@@ -84,7 +87,8 @@ export default {
             savedScrollTop: null,
             newWidth: typeof this.width === 'number'
                 ? this.width + 'px'
-                : this.width
+                : this.width,
+            animating: true
         }
     },
     computed: {
@@ -98,7 +102,7 @@ export default {
         showX() {
             return this.cancelOptions.indexOf('x') >= 0
         },
-        customStlye() {
+        customStyle() {
             if (!this.fullScreen) {
                 return { maxWidth: this.newWidth }
             }
@@ -147,8 +151,8 @@ export default {
         },
 
         /**
-            * Close the Modal if canCancel and call the onCancel prop (function).
-            */
+        * Close the Modal if canCancel and call the onCancel prop (function).
+        */
         cancel(method) {
             if (this.cancelOptions.indexOf(method) < 0) return
 
@@ -157,9 +161,9 @@ export default {
         },
 
         /**
-            * Call the onCancel prop (function).
-            * Emit events, and destroy modal if it's programmatic.
-            */
+        * Call the onCancel prop (function).
+        * Emit events, and destroy modal if it's programmatic.
+        */
         close() {
             this.$emit('close')
             this.$emit('update:active', false)
@@ -175,11 +179,25 @@ export default {
         },
 
         /**
-            * Keypress event that is bound to the document.
-            */
+        * Keypress event that is bound to the document.
+        */
         keyPress(event) {
             // Esc key
             if (this.isActive && event.keyCode === 27) this.cancel('escape')
+        },
+
+        /**
+        * Transition after-enter hook
+        */
+        afterEnter() {
+            this.animating = false
+        },
+
+        /**
+        * Transition before-leave hook
+        */
+        beforeLeave() {
+            this.animating = true
         }
     },
     created() {

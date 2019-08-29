@@ -50,56 +50,56 @@ export default {
     },
     computed: {
         /**
-            * How many number indicators are shown on the face
-            */
+        * How many number indicators are shown on the face
+        */
         count() {
             return this.max - this.min + 1
         },
         /**
-            * How many number indicators are shown per ring on the face
-            */
+        * How many number indicators are shown per ring on the face
+        */
         countPerRing() {
             return this.double ? (this.count / 2) : this.count
         },
         /**
-            * Radius of the clock face
-            */
+        * Radius of the clock face
+        */
         radius() {
             return this.pickerSize / 2
         },
         /**
-            * Radius of the outer ring of number indicators
-            */
+        * Radius of the outer ring of number indicators
+        */
         outerRadius() {
             return this.radius -
                 paddingInner -
                 indicatorSize / 2
         },
         /**
-            * Radius of the inner ring of number indicators
-            */
+        * Radius of the inner ring of number indicators
+        */
         innerRadius() {
             return Math.max(this.outerRadius * 0.6,
                 this.outerRadius - paddingInner - indicatorSize)
             // 48px gives enough room for the outer ring of numbers
         },
         /**
-            * The angle for each selectable value
-            * For hours this ends up being 30 degrees, for minutes 6 degrees
-            */
+        * The angle for each selectable value
+        * For hours this ends up being 30 degrees, for minutes 6 degrees
+        */
         degreesPerUnit() {
             return 360 / this.countPerRing
         },
         /**
-            * Used for calculating x/y grid location based on degrees
-            */
+        * Used for calculating x/y grid location based on degrees
+        */
         degrees() {
             return this.degreesPerUnit * Math.PI / 180
         },
         /**
-            * Calculates the angle the clock hand should be rotated for the
-            * selected value
-            */
+        * Calculates the angle the clock hand should be rotated for the
+        * selected value
+        */
         handRotateAngle() {
             let currentAngle = this.prevAngle
             while (currentAngle < 0) currentAngle += 360
@@ -109,9 +109,9 @@ export default {
             return angle
         },
         /**
-            * Determines how long the selector hand is based on if the
-            * selected value is located along the outer or inner ring
-            */
+        * Determines how long the selector hand is based on if the
+        * selected value is located along the outer or inner ring
+        */
         handScale() {
             return this.calcHandScale(this.displayedValue)
         },
@@ -122,8 +122,8 @@ export default {
             }
         },
         /**
-            * The value the hand should be pointing at
-            */
+        * The value the hand should be pointing at
+        */
         displayedValue() {
             return this.inputValue == null ? this.min : this.inputValue
         }
@@ -141,8 +141,8 @@ export default {
             return this.disabledValues && this.disabledValues(value)
         },
         /**
-            * Calculates the distance between two points
-            */
+        * Calculates the distance between two points
+        */
         euclidean(p0, p1) {
             const dx = p1.x - p0.x
             const dy = p1.y - p0.y
@@ -155,27 +155,27 @@ export default {
             return (modDiff + 360) % 360 < 180 ? shortestDistance * 1 : shortestDistance * -1
         },
         /**
-            * Calculates the angle of the line from the center point
-            * to the given point.
-            */
+        * Calculates the angle of the line from the center point
+        * to the given point.
+        */
         coordToAngle(center, p1) {
             const value = 2 *
                 Math.atan2(p1.y - center.y - this.euclidean(center, p1), p1.x - center.x)
             return Math.abs(value * 180 / Math.PI)
         },
         /**
-            * Generates the inline style translate() property for a
-            * number indicator, which determines it's location on the
-            * clock face
-            */
+        * Generates the inline style translate() property for a
+        * number indicator, which determines it's location on the
+        * clock face
+        */
         getNumberTranslate(value) {
             const { x, y } = this.getNumberCoords(value)
             return `translate(${x}px, ${y}px)`
         },
         /***
-            * Calculates the coordinates on the clock face for a number
-            * indicator value
-            */
+        * Calculates the coordinates on the clock face for a number
+        * indicator value
+        */
         getNumberCoords(value) {
             const radius = this.isInnerRing(value) ? this.innerRadius : this.outerRadius
             return {
@@ -190,8 +190,8 @@ export default {
             }
         },
         /**
-            * Determines if a value resides on the inner ring
-            */
+        * Determines if a value resides on the inner ring
+        */
         isInnerRing(value) {
             return this.double && (value - this.min >= this.countPerRing)
         },

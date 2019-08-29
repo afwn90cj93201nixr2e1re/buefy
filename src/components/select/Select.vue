@@ -22,6 +22,7 @@
                         {{ placeholder }}
                     </option>
                 </template>
+
                 <slot/>
 
             </select>
@@ -49,7 +50,7 @@ export default {
     inheritAttrs: false,
     props: {
         value: {
-            type: [String, Number, Boolean, Object, Array, Symbol, Function],
+            type: [String, Number, Boolean, Object, Array, Function],
             default: null
         },
         placeholder: String,
@@ -85,10 +86,10 @@ export default {
     },
     watch: {
         /**
-            * When v-model is changed:
-            *   1. Set the selected option.
-            *   2. If it's invalid, validate again.
-            */
+        * When v-model is changed:
+        *   1. Set the selected option.
+        *   2. If it's invalid, validate again.
+        */
         value(value) {
             this.selected = value
             !this.isValid && this.checkHtml5Validity()

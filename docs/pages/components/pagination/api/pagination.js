@@ -16,6 +16,20 @@ export default [
                 default: '<code>20</code>'
             },
             {
+                name: '<code>range-before</code>',
+                description: 'Number of pagination items to show before current page',
+                type: 'Number',
+                values: '—',
+                default: '<code>1</code>'
+            },
+            {
+                name: '<code>range-after</code>',
+                description: 'Items to paginatation items to show after current page',
+                type: 'Number',
+                values: '—',
+                default: '<code>1</code>'
+            },
+            {
                 name: '<code>current</code>',
                 description: 'Current page number, use the <code>.sync</code> modifier to make it two-way binding',
                 type: 'Number',
@@ -44,11 +58,32 @@ export default [
                 default: '<code>false</code>'
             },
             {
+                name: '<code>rounded</code>',
+                description: 'Rounded button styles',
+                type: 'Boolean',
+                values: '—',
+                default: '<code>false</code>'
+            },
+            {
                 name: '<code>icon-pack</code>',
                 description: 'Icon pack to use',
                 type: 'String',
                 values: '<code>mdi</code>, <code>fa</code>, <code>fas</code>, <code>far</code>, <code>fad</code>, <code>fal</code>',
                 default: '<code>mdi</code>'
+            },
+            {
+                name: '<code>icon-prev</code>',
+                description: 'Icon to use for previous button',
+                type: 'String',
+                values: '—',
+                default: '<code>chevron-left</code>'
+            },
+            {
+                name: '<code>icon-next</code>',
+                description: 'Icon to use for next button',
+                type: 'String',
+                values: '—',
+                default: '<code>chevron-right</code>'
             },
             {
                 name: '<code>aria-next-label</code>',

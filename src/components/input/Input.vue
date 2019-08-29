@@ -34,7 +34,7 @@
             :size="iconSize"/>
 
         <b-icon
-            v-if="!loading && (passwordReveal || statusType)"
+            v-if="!loading && (passwordReveal || statusTypeIcon)"
             class="is-right"
             :class="{ 'is-clickable': passwordReveal }"
             :icon="passwordReveal ? passwordVisibleIcon : statusTypeIcon"
@@ -122,12 +122,12 @@ export default {
             ]
         },
         hasIconRight() {
-            return this.passwordReveal || this.loading || this.statusType
+            return this.passwordReveal || this.loading || this.statusTypeIcon
         },
 
         /**
-            * Position of the icon or if it's both sides.
-            */
+        * Position of the icon or if it's both sides.
+        */
         iconPosition() {
             if (this.icon && this.hasIconRight) {
                 return 'has-icons-left has-icons-right'
@@ -139,8 +139,8 @@ export default {
         },
 
         /**
-            * Icon name (MDI) based on the type.
-            */
+        * Icon name (MDI) based on the type.
+        */
         statusTypeIcon() {
             switch (this.statusType) {
                 case 'is-success': return 'check'
@@ -151,21 +151,21 @@ export default {
         },
 
         /**
-            * Check if have any message prop from parent if it's a Field.
-            */
+        * Check if have any message prop from parent if it's a Field.
+        */
         hasMessage() {
             return !!this.statusMessage
         },
 
         /**
-            * Current password-reveal icon name.
-            */
+        * Current password-reveal icon name.
+        */
         passwordVisibleIcon() {
             return !this.isPasswordVisible ? 'eye' : 'eye-off'
         },
         /**
-            * Get value length
-            */
+        * Get value length
+        */
         valueLength() {
             if (typeof this.computedValue === 'string') {
                 return this.computedValue.length
@@ -177,18 +177,18 @@ export default {
     },
     watch: {
         /**
-            * When v-model is changed:
-            *   1. Set internal value.
-            */
+        * When v-model is changed:
+        *   1. Set internal value.
+        */
         value(value) {
             this.newValue = value
         }
     },
     methods: {
         /**
-            * Toggle the visibility of a password-reveal input
-            * by changing the type and focus the input right away.
-            */
+        * Toggle the visibility of a password-reveal input
+        * by changing the type and focus the input right away.
+        */
         togglePasswordVisibility() {
             this.isPasswordVisible = !this.isPasswordVisible
             this.newType = this.isPasswordVisible ? 'text' : 'password'
@@ -199,9 +199,9 @@ export default {
         },
 
         /**
-            * Input's 'input' event listener, 'nextTick' is used to prevent event firing
-            * before ui update, helps when using masks (Cleavejs and potentially others).
-            */
+        * Input's 'input' event listener, 'nextTick' is used to prevent event firing
+        * before ui update, helps when using masks (Cleavejs and potentially others).
+        */
         onInput(event) {
             this.$nextTick(() => {
                 if (event.target) {

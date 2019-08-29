@@ -6,10 +6,9 @@ export default {
         type: String | Object,
         icon: String,
         iconPack: String,
-        clickable: Boolean,
-        completed: {
+        clickable: {
             type: Boolean,
-            default: false
+            default: undefined
         },
         visible: {
             type: Boolean,
@@ -24,8 +23,8 @@ export default {
     },
     methods: {
         /**
-            * Activate step, alter animation name based on the index.
-            */
+        * Activate step, alter animation name based on the index.
+        */
         activate(oldIndex, index) {
             this.transitionName = index < oldIndex
                 ? 'slide-next'
@@ -34,8 +33,8 @@ export default {
         },
 
         /**
-            * Deactivate step, alter animation name based on the index.
-            */
+        * Deactivate step, alter animation name based on the index.
+        */
         deactivate(oldIndex, index) {
             this.transitionName = index < oldIndex
                 ? 'slide-next'

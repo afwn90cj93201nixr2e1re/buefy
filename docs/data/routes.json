@@ -98,7 +98,8 @@
             "/",
             "documentation",
             "documentation/dropdown"
-        ]
+        ],
+        "isUpdated": true
     },
     "documentation/icon": {
         "title": "Icon",
@@ -110,7 +111,8 @@
             "/",
             "documentation",
             "documentation/icon"
-        ]
+        ],
+        "isUpdated": true
     },
     "documentation/tooltip": {
         "title": "Tooltip",
@@ -134,6 +136,18 @@
             "/",
             "documentation",
             "documentation/modal"
+        ]
+    },
+    "documentation/navbar": {
+        "title": "Navbar",
+        "subtitle": "A responsive horizontal navbar that can support images, links, buttons, and dropdowns",
+        "path": "/documentation/navbar",
+        "githubPath": "pages/components/navbar/Navbar.vue",
+        "menu": "documentation",
+        "breadcrumb": [
+            "/",
+            "documentation",
+            "documentation/navbar"
         ],
         "isUpdated": true
     },
@@ -231,8 +245,7 @@
             "/",
             "documentation",
             "documentation/field"
-        ],
-        "isUpdated": true
+        ]
     },
     "documentation/input": {
         "title": "Input",
@@ -317,7 +330,7 @@
             "documentation",
             "documentation/datepicker"
         ],
-        "isUpdated": true
+        "isUpdated": "true"
     },
     "documentation/timepicker": {
         "title": "Timepicker",
@@ -390,7 +403,8 @@
             "/",
             "documentation",
             "documentation/pagination"
-        ]
+        ],
+        "isUpdated": true
     },
     "documentation/button": {
         "title": "Button",
@@ -427,7 +441,45 @@
             "documentation",
             "documentation/steps"
         ],
-        "isNew": true
+        "isUpdated": "true"
+    },
+    "documentation/menu": {
+        "title": "Menu",
+        "subtitle": "A simple vertical menu",
+        "path": "/documentation/menu",
+        "githubPath": "pages/components/menu/Menu.vue",
+        "menu": "documentation",
+        "breadcrumb": [
+            "/",
+            "documentation",
+            "documentation/menu"
+        ],
+        "isUpdated": "true"
+    },
+     "documentation/slider": {
+        "title": "Slider",
+        "subtitle": "A slider to select a value or range from a given range",
+        "path": "/documentation/slider",
+        "githubPath": "pages/components/slider/Slider.vue",
+        "menu": "documentation",
+        "breadcrumb": [
+            "/",
+            "documentation",
+            "documentation/slider"
+        ],
+        "isUpdated": true
+    },
+    "documentation/progress": {
+        "title": "Progress",
+        "subtitle": "Wrapper around Bulma / Native HTML progress bars",
+        "path": "/documentation/progress",
+        "githubPath": "pages/components/progress/Progress.vue",
+        "menu": "documentation",
+        "breadcrumb": [
+            "/",
+            "documentation",
+            "documentation/progress"
+        ]
     },
     "extensions": {
         "title": "Extensions",

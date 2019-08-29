@@ -8,7 +8,7 @@
             @click.prevent="prev"
             :aria-label="ariaPreviousLabel">
             <b-icon
-                icon="chevron-left"
+                :icon="iconPrev"
                 :pack="iconPack"
                 both
                 aria-hidden="true"/>
@@ -21,7 +21,7 @@
             @click.prevent="next"
             :aria-label="ariaNextLabel">
             <b-icon
-                icon="chevron-right"
+                :icon="iconNext"
                 :pack="iconPack"
                 both
                 aria-hidden="true"/>
@@ -80,6 +80,7 @@
 
 <script>
 import Icon from '../icon/Icon'
+import config from '../../utils/config'
 
 export default {
     name: 'BPagination',
@@ -96,11 +97,27 @@ export default {
             type: [Number, String],
             default: 1
         },
+        rangeBefore: {
+            type: [Number, String],
+            default: 1
+        },
+        rangeAfter: {
+            type: [Number, String],
+            default: 1
+        },
         size: String,
         simple: Boolean,
         rounded: Boolean,
         order: String,
         iconPack: String,
+        iconPrev: {
+            type: String,
+            default: config.defaultIconPrev
+        },
+        iconNext: {
+            type: String,
+            default: config.defaultIconNext
+        },
         ariaNextLabel: String,
         ariaPreviousLabel: String,
         ariaPageLabel: String,
@@ -118,72 +135,86 @@ export default {
             ]
         },
 
+        beforeCurrent() {
+            return parseInt(this.rangeBefore)
+        },
+
+        afterCurrent() {
+            return parseInt(this.rangeAfter)
+        },
+
         /**
-            * Total page size (count).
-            */
+        * Total page size (count).
+        */
         pageCount() {
             return Math.ceil(this.total / this.perPage)
         },
 
         /**
-            * First item of the page (count).
-            */
+        * First item of the page (count).
+        */
         firstItem() {
             const firstItem = this.current * this.perPage - this.perPage + 1
             return firstItem >= 0 ? firstItem : 0
         },
 
         /**
-            * Check if previous button is available.
-            */
+        * Check if previous button is available.
+        */
         hasPrev() {
             return this.current > 1
         },
 
         /**
-            * Check if first page button should be visible.
-            */
+        * Check if first page button should be visible.
+        */
         hasFirst() {
-            return this.current >= 3
+            return this.current >= (2 + this.beforeCurrent)
         },
 
         /**
-            * Check if first ellipsis should be visible.
-            */
+        * Check if first ellipsis should be visible.
+        */
         hasFirstEllipsis() {
-            return this.current >= 4
+            return this.current >= (this.beforeCurrent + 4)
         },
 
         /**
-            * Check if last page button should be visible.
-            */
+        * Check if last page button should be visible.
+        */
         hasLast() {
-            return this.current <= this.pageCount - 2
+            return this.current <= this.pageCount - (1 + this.afterCurrent)
         },
 
         /**
-            * Check if last ellipsis should be visible.
-            */
+        * Check if last ellipsis should be visible.
+        */
         hasLastEllipsis() {
-            return this.current < this.pageCount - 2 && this.current <= this.pageCount - 3
+            return this.current < this.pageCount - (2 + this.afterCurrent)
         },
 
         /**
-            * Check if next button is available.
-            */
+        * Check if next button is available.
+        */
         hasNext() {
             return this.current < this.pageCount
         },
 
         /**
-            * Get near pages, 1 before and 1 after the current.
-            * Also add the click event to the array.
-            */
+        * Get near pages, 1 before and 1 after the current.
+        * Also add the click event to the array.
+        */
         pagesInRange() {
             if (this.simple) return
 
-            const left = Math.max(1, this.current - 1)
-            const right = Math.min(this.current + 1, this.pageCount)
+            let left = Math.max(1, this.current - this.beforeCurrent)
+            if (left - 1 === 2) {
+                left-- // Do not show the ellipsis if there is only one to hide
+            }
+            let right = Math.min(this.current + this.afterCurrent, this.pageCount)
+            if (this.pageCount - right === 2) {
+                right++ // Do not show the ellipsis if there is only one to hide
+            }
 
             const pages = []
             for (let i = left; i <= right; i++) {
@@ -205,16 +236,16 @@ export default {
     },
     watch: {
         /**
-            * If current page is trying to be greater than page count, set to last.
-            */
+        * If current page is trying to be greater than page count, set to last.
+        */
         pageCount(value) {
             if (this.current > value) this.last()
         }
     },
     methods: {
         /**
-            * Previous button click listener.
-            */
+        * Previous button click listener.
+        */
         prev() {
             if (!this.hasPrev) return
             this.$emit('change', this.current - 1)
@@ -222,24 +253,24 @@ export default {
         },
 
         /**
-            * First button click listener.
-            */
+        * First button click listener.
+        */
         first() {
             this.$emit('change', 1)
             this.$emit('update:current', 1)
         },
 
         /**
-            * Last button click listener.
-            */
+        * Last button click listener.
+        */
         last() {
             this.$emit('change', this.pageCount)
             this.$emit('update:current', this.pageCount)
         },
 
         /**
-            * Next button click listener.
-            */
+        * Next button click listener.
+        */
         next() {
             if (!this.hasNext) return
             this.$emit('change', this.current + 1)
@@ -247,8 +278,8 @@ export default {
         },
 
         /**
-            * Get text for aria-label according to page number.
-            */
+        * Get text for aria-label according to page number.
+        */
         getAriaPageLabel(pageNumber, isCurrent) {
             if (this.ariaPageLabel && (!isCurrent || !this.ariaCurrentLabel)) {
                 return this.ariaPageLabel + ' ' + pageNumber + '.'

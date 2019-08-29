@@ -48,6 +48,20 @@ export default [
                 default: '<code>mdi</code>'
             },
             {
+                name: '<code>icon-prev</code>',
+                description: 'Icon to use for navigation button',
+                type: 'String',
+                values: '—',
+                default: '<code>chevron-left</code>'
+            },
+            {
+                name: '<code>icon-next</code>',
+                description: 'Icon to use for navigation button',
+                type: 'String',
+                values: '—',
+                default: '<code>chevron-right</code>'
+            },
+            {
                 name: '<code>has-navigation</code>',
                 description: `Next and previous buttons below the component.
                     You can use this property if you want to use your own custom navigation items.`,
@@ -120,16 +134,9 @@ export default [
                 default: '<code>mdi</code>'
             },
             {
-                name: '<code>completed</code>',
-                description: 'Step is considered completed',
-                type: 'Boolean',
-                values: '—',
-                default: 'false'
-            },
-            {
                 name: '<code>clickable</code>',
                 description: `Item can be used directly to navigate.
-                    If undefined, completed steps are clickable while the others are not.`,
+                    If undefined, previous steps are clickable while the others are not.`,
                 type: 'Boolean',
                 values: '—',
                 default: '—'

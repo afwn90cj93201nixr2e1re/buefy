@@ -10,6 +10,7 @@
         <a
             class="tag is-delete"
             role="button"
+            :aria-label="ariaCloseLabel"
             :tabindex="tabstop ? 0 : false"
             :disabled="disabled"
             :class="[size, { 'is-rounded': rounded }]"
@@ -28,6 +29,7 @@
         <a
             v-if="closable"
             role="button"
+            :aria-label="ariaCloseLabel"
             class="delete is-small"
             :disabled="disabled"
             :tabindex="tabstop ? 0 : false"
@@ -51,13 +53,14 @@ export default {
         tabstop: {
             type: Boolean,
             default: true
-        }
+        },
+        ariaCloseLabel: String
     },
     methods: {
         /**
-            * Emit close event when delete button is clicked
-            * or delete key is pressed.
-            */
+        * Emit close event when delete button is clicked
+        * or delete key is pressed.
+        */
         close() {
             if (this.disabled) return
 

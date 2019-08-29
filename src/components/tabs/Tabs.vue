@@ -81,15 +81,15 @@ export default {
     },
     watch: {
         /**
-            * When v-model is changed set the new active tab.
-            */
+        * When v-model is changed set the new active tab.
+        */
         value(value) {
             this.changeTab(value)
         },
 
         /**
-            * When tab-items are updated, set active one.
-            */
+        * When tab-items are updated, set active one.
+        */
         tabItems() {
             if (this.activeTab < this.tabItems.length) {
                 this.tabItems[this.activeTab].isActive = true
@@ -98,8 +98,8 @@ export default {
     },
     methods: {
         /**
-            * Change the active tab and emit change event.
-            */
+        * Change the active tab and emit change event.
+        */
         changeTab(newIndex) {
             if (this.activeTab === newIndex) return
 
@@ -112,8 +112,8 @@ export default {
         },
 
         /**
-            * Tab click listener, emit input event and change active tab.
-            */
+        * Tab click listener, emit input event and change active tab.
+        */
         tabClick(value) {
             this.$emit('input', value)
             this.changeTab(value)

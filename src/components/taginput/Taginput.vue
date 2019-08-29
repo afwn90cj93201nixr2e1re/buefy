@@ -62,14 +62,14 @@
             </b-autocomplete>
         </div>
 
-        <p v-if="maxtags || maxlength" class="help counter">
+        <small v-if="hasCounter && (maxtags || maxlength)" class="help counter">
             <template v-if="maxlength && valueLength > 0">
                 {{ valueLength }} / {{ maxlength }}
             </template>
             <template v-else-if="maxtags">
                 {{ tagsLength }} / {{ maxtags }}
             </template>
-        </p>
+        </small>
     </div>
 </template>
 
@@ -77,6 +77,7 @@
 import { getValueByPath } from '../../utils/helpers'
 import Tag from '../tag/Tag'
 import Autocomplete from '../autocomplete/Autocomplete'
+import config from '../../utils/config'
 import FormElementMixin from '../../utils/FormElementMixin'
 
 export default {
@@ -108,6 +109,10 @@ export default {
         maxtags: {
             type: [Number, String],
             required: false
+        },
+        hasCounter: {
+            type: Boolean,
+            default: () => config.defaultTaginputHasCounter
         },
         field: {
             type: String,
@@ -145,7 +150,7 @@ export default {
     },
     data() {
         return {
-            tags: this.value || [],
+            tags: Array.isArray(this.value) ? this.value.slice(0) : (this.value || []),
             newTag: '',
             _elementRef: 'input',
             _isTaginput: true
@@ -182,7 +187,7 @@ export default {
         },
 
         footerSlotName() {
-            return this.hasHeaderSlot ? 'footer' : 'dontrender'
+            return this.hasFooterSlot ? 'footer' : 'dontrender'
         },
 
         hasDefaultSlot() {
@@ -202,8 +207,8 @@ export default {
         },
 
         /**
-            * Show the input field if a maxtags hasn't been set or reached.
-            */
+         * Show the input field if a maxtags hasn't been set or reached.
+         */
         hasInput() {
             return this.maxtags == null || this.tagsLength < this.maxtags
         },
@@ -213,9 +218,9 @@ export default {
         },
 
         /**
-            * If Taginput has onPasteSeparators prop,
-            * returning new RegExp used to split pasted string.
-            */
+         * If Taginput has onPasteSeparators prop,
+         * returning new RegExp used to split pasted string.
+         */
         separatorsAsRegExp() {
             const sep = this.onPasteSeparators
 
@@ -226,8 +231,8 @@ export default {
     },
     watch: {
         /**
-            * When v-model is changed set internal value.
-            */
+         * When v-model is changed set internal value.
+         */
         value(value) {
             this.tags = value
         },

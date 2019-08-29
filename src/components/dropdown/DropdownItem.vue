@@ -6,7 +6,7 @@
         :class="anchorClasses"
         @click="selectItem"
         :role="ariaRoleItem"
-        tabindex="0">
+        :tabindex="focusable ? 0 : null">
         <slot/>
     </a>
     <div
@@ -14,7 +14,7 @@
         :class="itemClasses"
         @click="selectItem"
         :role="ariaRoleItem"
-        tabindex="0">
+        :tabindex="focusable ? 0 : null">
         <slot/>
     </div>
 </template>
@@ -24,12 +24,16 @@ export default {
     name: 'BDropdownItem',
     props: {
         value: {
-            type: [String, Number, Boolean, Object, Array, Symbol, Function],
+            type: [String, Number, Boolean, Object, Array, Function],
             default: null
         },
         separator: Boolean,
         disabled: Boolean,
         custom: Boolean,
+        focusable: {
+            type: Boolean,
+            default: true
+        },
         paddingless: Boolean,
         hasLink: Boolean,
         ariaRole: {
@@ -58,8 +62,8 @@ export default {
             return this.ariaRole === 'menuitem' || this.ariaRole === 'listitem' ? this.ariaRole : null
         },
         /**
-            * Check if item can be clickable.
-            */
+        * Check if item can be clickable.
+        */
         isClickable() {
             return !this.$parent.disabled && !this.separator && !this.disabled && !this.custom
         },
@@ -71,8 +75,8 @@ export default {
     },
     methods: {
         /**
-            * Click listener, select the item.
-            */
+        * Click listener, select the item.
+        */
         selectItem() {
             if (!this.isClickable) return
 

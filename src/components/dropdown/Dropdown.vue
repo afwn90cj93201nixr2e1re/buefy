@@ -37,11 +37,13 @@
 <script>
 import config from '../../utils/config'
 
+const DEFAULT_CLOSE_OPTIONS = ['escape', 'outside']
+
 export default {
     name: 'BDropdown',
     props: {
         value: {
-            type: [String, Number, Boolean, Object, Array, Symbol, Function],
+            type: [String, Number, Boolean, Object, Array, Function],
             default: null
         },
         disabled: Boolean,
@@ -75,6 +77,10 @@ export default {
         closeOnClick: {
             type: Boolean,
             default: true
+        },
+        canClose: {
+            type: [Array, Boolean],
+            default: true
         }
     },
     data() {
@@ -98,32 +104,39 @@ export default {
         isMobileModal() {
             return this.mobileModal && !this.inline && !this.hoverable
         },
+        cancelOptions() {
+            return typeof this.canClose === 'boolean'
+                ? this.canClose
+                    ? DEFAULT_CLOSE_OPTIONS
+                    : []
+                : this.canClose
+        },
         ariaRoleMenu() {
             return this.ariaRole === 'menu' || this.ariaRole === 'list' ? this.ariaRole : null
         }
     },
     watch: {
         /**
-            * When v-model is changed set the new selected item.
-            */
+        * When v-model is changed set the new selected item.
+        */
         value(value) {
             this.selected = value
         },
 
         /**
-            * Emit event when isActive value is changed.
-            */
+        * Emit event when isActive value is changed.
+        */
         isActive(value) {
             this.$emit('active-change', value)
         }
     },
     methods: {
         /**
-            * Click listener from DropdownItem.
-            *   1. Set new selected item.
-            *   2. Emit input event to update the user v-model.
-            *   3. Close the dropdown.
-            */
+        * Click listener from DropdownItem.
+        *   1. Set new selected item.
+        *   2. Emit input event to update the user v-model.
+        *   3. Close the dropdown.
+        */
         selectItem(value) {
             if (this.multiple) {
                 if (this.selected) {
@@ -146,8 +159,6 @@ export default {
             this.$emit('input', this.selected)
             if (!this.multiple) {
                 this.isActive = !this.closeOnClick
-                /*
-                    * breaking change
                 if (this.hoverable && this.closeOnClick) {
                     this.isHoverable = false
                     // Timeout for the animation complete before destroying
@@ -155,13 +166,12 @@ export default {
                         this.isHoverable = true
                     }, 250)
                 }
-                */
             }
         },
 
         /**
-            * White-listed items to not close when clicked.
-            */
+        * White-listed items to not close when clicked.
+        */
         isInWhiteList(el) {
             if (el === this.$refs.dropdownMenu) return true
             if (el === this.$refs.trigger) return true
@@ -188,24 +198,41 @@ export default {
         },
 
         /**
-            * Close dropdown if clicked outside.
-            */
+        * Close dropdown if clicked outside.
+        */
         clickedOutside(event) {
+            if (this.cancelOptions.indexOf('outside') < 0) return
             if (this.inline) return
 
             if (!this.isInWhiteList(event.target)) this.isActive = false
         },
 
         /**
-            * Toggle dropdown if it's not disabled.
-            */
+         * Keypress event that is bound to the document
+         */
+        keyPress(event) {
+            // Esc key
+            if (this.isActive && event.keyCode === 27) {
+                if (this.cancelOptions.indexOf('escape') < 0) return
+                this.isActive = false
+            }
+        },
+
+        /**
+        * Toggle dropdown if it's not disabled.
+        */
         toggle() {
             if (this.disabled) return
 
             if (!this.isActive) {
                 // if not active, toggle after clickOutside event
                 // this fixes toggling programmatic
-                this.$nextTick(() => { this.isActive = !this.isActive })
+                this.$nextTick(() => {
+                    const value = !this.isActive
+                    this.isActive = value
+                    // Vue 2.6.x ???
+                    setTimeout(() => (this.isActive = value))
+                })
             } else {
                 this.isActive = !this.isActive
             }
@@ -214,11 +241,13 @@ export default {
     created() {
         if (typeof window !== 'undefined') {
             document.addEventListener('click', this.clickedOutside)
+            document.addEventListener('keyup', this.keyPress)
         }
     },
     beforeDestroy() {
         if (typeof window !== 'undefined') {
             document.removeEventListener('click', this.clickedOutside)
+            document.removeEventListener('keyup', this.keyPress)
         }
     }
 }

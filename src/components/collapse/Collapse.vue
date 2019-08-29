@@ -52,8 +52,8 @@ export default {
     },
     methods: {
         /**
-            * Toggle and emit events
-            */
+        * Toggle and emit events
+        */
         toggle() {
             this.isOpen = !this.isOpen
             this.$emit('update:open', this.isOpen)

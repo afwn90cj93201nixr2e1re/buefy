@@ -64,6 +64,13 @@ export default [
                 type: 'Boolean',
                 values: '—',
                 default: '<code>false</code>'
+            },
+            {
+                name: '<code>can-close</code>',
+                description: 'Can close dropdown by pressing escape or by clicking outside',
+                type: 'Boolean, Array',
+                values: '<code>escape</code>, <code>outside</code>',
+                default: '<code>true</code>'
             }
         ],
         slots: [
@@ -120,6 +127,13 @@ export default [
                 type: 'Boolean',
                 values: '—',
                 default: '<code>false</code>'
+            },
+            {
+                name: '<code>focusable</code>',
+                description: 'Item can be focused',
+                type: 'Boolean',
+                values: '—',
+                default: '<code>true</code>'
             },
             {
                 name: '<code>custom</code>',

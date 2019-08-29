@@ -44,6 +44,7 @@ const router = new Router({
                 route('documentation/dialog', 'components/dialog/Dialog'),
                 route('documentation/toast', 'components/toast/Toast'),
                 route('documentation/snackbar', 'components/snackbar/Snackbar'),
+                route('documentation/navbar', 'components/navbar/Navbar'),
                 route('documentation/notification', 'components/notification/Notification'),
                 route('documentation/message', 'components/message/Message'),
                 route('documentation/loading', 'components/loading/Loading'),
@@ -64,6 +65,9 @@ const router = new Router({
                 route('documentation/button', 'components/button/Button'),
                 route('documentation/numberinput', 'components/numberinput/Numberinput'),
                 route('documentation/steps', 'components/steps/Steps'),
+                route('documentation/menu', 'components/menu/Menu'),
+                route('documentation/slider', 'components/slider/Slider'),
+                route('documentation/progress', 'components/progress/Progress'),
                 // Extensions
                 route('extensions', 'Extensions'),
                 route('extensions/cleavejs', 'extensions/cleavejs/Cleavejs'),
@@ -75,7 +79,14 @@ const router = new Router({
         },
         // Global redirect
         { path: '*', redirect: '' }
-    ]
+    ],
+    scrollBehavior(to, from, savedPosition) {
+        if (to.hash) {
+            return {
+                selector: to.hash
+            }
+        }
+    }
 })
 
 router.afterEach(afterEachGlobal)

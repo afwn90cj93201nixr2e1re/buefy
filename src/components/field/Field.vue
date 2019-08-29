@@ -88,15 +88,16 @@ export default {
                     this.labelPosition === 'inside',
                 'is-floating-label': this.hasLabel && !this.horizontal &&
                     this.labelPosition === 'on-border'
-            }]
+            },
+            this.numberInputClasses]
         },
         /**
-            * Correct Bulma class for the side of the addon or group.
-            *
-            * This is not kept like the others (is-small, etc.),
-            * because since 'has-addons' is set automatically it
-            * doesn't make sense to teach users what addons are exactly.
-            */
+        * Correct Bulma class for the side of the addon or group.
+        *
+        * This is not kept like the others (is-small, etc.),
+        * because since 'has-addons' is set automatically it
+        * doesn't make sense to teach users what addons are exactly.
+        */
         newPosition() {
             if (this.position === undefined) return
 
@@ -110,9 +111,9 @@ export default {
             if (this.position) return prefix + position[1]
         },
         /**
-            * Formatted message in case it's an array
-            * (each element is separated by <br> tag)
-            */
+        * Formatted message in case it's an array
+        * (each element is separated by <br> tag)
+        */
         formattedMessage() {
             if (typeof this.newMessage === 'string') {
                 return this.newMessage
@@ -142,30 +143,48 @@ export default {
         },
         hasLabel() {
             return this.label || this.$slots.label
+        },
+        numberInputClasses() {
+            if (this.$slots.default) {
+                const numberinput = this.$slots.default.filter((node) => node.tag && node.tag.toLowerCase().indexOf('numberinput') >= 0)[0]
+                if (numberinput) {
+                    const classes = ['has-numberinput']
+                    const controlsPosition = numberinput.componentOptions.propsData.controlsPosition
+                    const size = numberinput.componentOptions.propsData.size
+                    if (controlsPosition) {
+                        classes.push(`has-numberinput-${controlsPosition}`)
+                    }
+                    if (size) {
+                        classes.push(`has-numberinput-${size}`)
+                    }
+                    return classes
+                }
+            }
+            return null
         }
     },
     watch: {
         /**
-            * Set internal type when prop change.
-            */
+        * Set internal type when prop change.
+        */
         type(value) {
             this.newType = value
         },
 
         /**
-            * Set internal message when prop change.
-            */
+        * Set internal message when prop change.
+        */
         message(value) {
             this.newMessage = value
         }
     },
     methods: {
         /**
-            * Field has addons if there are more than one slot
-            * (element / component) in the Field.
-            * Or is grouped when prop is set.
-            * Is a method to be called when component re-render.
-            */
+        * Field has addons if there are more than one slot
+        * (element / component) in the Field.
+        * Or is grouped when prop is set.
+        * Is a method to be called when component re-render.
+        */
         fieldType() {
             if (this.grouped) return 'is-grouped'
 
@@ -185,7 +204,7 @@ export default {
     mounted() {
         if (this.horizontal) {
             // Bulma docs: .is-normal for any .input or .button
-            const elements = this.$el.querySelectorAll('.input, .select, .button, .textarea')
+            const elements = this.$el.querySelectorAll('.input, .select, .button, .textarea, .b-slider')
             if (elements.length > 0) {
                 this.fieldLabelSize = 'is-normal'
             }

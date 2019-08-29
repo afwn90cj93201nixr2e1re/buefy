@@ -286,7 +286,8 @@ export default {
          * If object, get value from path, or else just the value.
          */
         getValue(option) {
-            if (!option) return
+
+            if (option === null) return
 
             if (typeof this.customFormatter !== 'undefined') {
                 return this.customFormatter(option)
@@ -303,9 +304,9 @@ export default {
         calcDropdownInViewportVertical() {
             this.$nextTick(() => {
                 /**
-                 * this.$refs.dropdown may be undefined
-                 * when Autocomplete is conditional rendered
-                 */
+                * this.$refs.dropdown may be undefined
+                * when Autocomplete is conditional rendered
+                */
                 if (this.$refs.dropdown === undefined) return
 
                 const rect = this.$refs.dropdown.getBoundingClientRect()
@@ -372,7 +373,7 @@ export default {
         },
 
         /**
-         * Blur listener.
+        * Blur listener.
         */
         onBlur(event) {
             this.hasFocus = false

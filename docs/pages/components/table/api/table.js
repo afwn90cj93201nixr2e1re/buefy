@@ -31,6 +31,20 @@ export default [
                 default: '<code>asc</code>'
             },
             {
+                name: '<code>sort-icon</code>',
+                description: `Sets the header sorting icon`,
+                type: 'String',
+                values: '-',
+                default: '<code>arrow-up</code>'
+            },
+            {
+                name: '<code>sort-icon-size</code>',
+                description: `Sets the size of the sorting icon`,
+                type: 'String',
+                values: '<code>is-small</code>, <code></code>, <code>is-medium</code>, <code>is-large</code>',
+                default: '<code>is-small</code>'
+            },
+            {
                 name: '<code>bordered</code>',
                 description: 'Border to all cells',
                 type: 'Boolean',
@@ -78,6 +92,13 @@ export default [
                 type: 'Boolean',
                 values: '—',
                 default: '<code>false</code>'
+            },
+            {
+                name: '<code>checkbox-position</code>',
+                description: 'Position of the checkbox (if <code>checkable</code> is true)',
+                type: 'String',
+                values: '<code>left</code> or <code>right</code>',
+                default: '<code>left</code>'
             },
             {
                 name: '<code>checked-rows</code>',
@@ -155,6 +176,13 @@ export default [
                 type: 'String',
                 values: '<code>is-small</code>, <code>is-medium</code>, <code>is-large</code>',
                 default: '—'
+            },
+            {
+                name: '<code>pagination-position</code>',
+                description: 'Pagination position (if <code>paginated</code>)',
+                type: 'String',
+                values: '<code>bottom</code>, <code>top</code>, <code>both</code>',
+                default: '<code>bottom</code>'
             },
             {
                 name: '<code>per-page</code>',
@@ -312,9 +340,14 @@ export default [
             },
             {
                 name: '<code>bottom-left</code>',
-                description: 'Custom bottom-left (opposite side of pagination)',
+                description: 'Custom bottom-left (opposite side of bottom pagination)',
                 props: '—'
-            }
+            },
+            {
+                name: '<code>top-left</code>',
+                description: 'Custom top-left (opposite side of top pagination)',
+                props: '—'
+            },
         ],
         events: [
             {
@@ -368,20 +401,34 @@ export default [
                 parameters: '<code>row: Object</code>, <code>row: Object</code>'
             },
             {
-                name: '<code> dragstart </code>',
+                name: '<code>dragstart</code>',
                 description: 'Triggers when starting to drag a row',
                 parameters: '<code> row: Object </code>, <code> dragEvent: Event </code>, <code> index: Number </code>'
             },
             {
-                name: '<code> drop </code>',
+                name: '<code>dragend</code>',
+                description: 'Triggers when ending to drag a row',
+                parameters: '<code> row: Object </code>, <code> dragEvent: Event </code>, <code> index: Number </code>'
+            },
+            {
+                name: '<code>drop</code>',
                 description: 'Triggers when dropping on a row',
                 parameters: '<code> row: Object </code>, <code> drop: Event </code>, <code> index: Number </code>'
             },
             {
-                name: '<code> dragover </code>',
+                name: '<code>dragover</code>',
                 description: 'Triggers when dragging over a row',
                 parameters: '<code> row: Object </code>, <code> dragover: Event </code>, <code> index: Number </code>'
-
+            },
+            {
+                name: '<code>mouseenter</code>',
+                description: 'Triggers when mouse enters a row',
+                parameters: '<code> row: Object </code>'
+            },
+            {
+                name: '<code>mouseleave</code>',
+                description: 'Triggers when mouse leaves a row',
+                parameters: '<code> row: Object </code>'
             }
         ],
         methods: [
@@ -472,6 +519,18 @@ export default [
                 type: 'Function (a: Object, b: Object, isAsc: Boolean)',
                 values: '—',
                 default: '—'
+            }
+        ],
+        slots: [
+            {
+                name: 'default',
+                description: '<strong>Required</strong>, table column body',
+                props: '-'
+            },
+            {
+                name: '<code>header</code>',
+                description: 'Table column custom header',
+                props: '<code>column: Vue Object</code>, <code>index: Number</code>'
             }
         ]
     }

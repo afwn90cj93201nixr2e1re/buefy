@@ -57,3 +57,4 @@ rm(path.join(config.lib.assetsRoot, config.lib.assetsSubDirectory), err => {
   })
   
 })
+ 

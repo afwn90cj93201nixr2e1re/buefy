@@ -1,5 +1,134 @@
 # Buefy Changelog
 
+## 0.8.3
+
+### New features
+
+Add ``customIconPacks`` constructor option to use custom icon packs (thanks @service-paradis)
+Add ``can-close`` prop to dropdown (thanks @service-paradis)
+Add ``close-on-click`` prop to form navbar (thanks @wanxe)
+Add ``icon-prev`` and ``icon-next`` props to datepicker, steps and pagination  (thanks @service-paradis)
+Add ``lazy`` prop to slider (thanks @yxngl)
+Add ``dragging``, ``dragstart`` and ``dragend`` events to slider (thanks @yxngl)
+Add ``setValidity`` method to form components (thanks @GerryWilko)
+* #1677 Add ``wrapper-class`` prop to navbar (thanks @wanxe)
+
+### Fixes
+
+* Fix selection UI to datepicker when empty range
+* Fix slider style for IE 11 (thanks @yxngl)
+* Fix ``default-minutes`` and ``default-seconds`` props when value is 0
+* Fix pagination compatibility using IE 11 (thanks @service-paradis)
+* Fix set active menu item on click when tag is ``router-link``
+* Fix navbar adding incorrect class to body when fixed at top/bottom (thanks @Silvea12)
+* Fix #1646 navbar item when tag prop is ``router-link`` (thanks @wanxe)
+* Fix #1648 modal becomes clipped using switch (thanks @yxngl)
+* Fix #1670 simple upload on IE 11
+* Fix #1678 show autocomplete option when value is 0
+* Fix #1679 hide navbar on click when mobile (thanks @wanxe)
+* Fix #1686 disable timepicker hour if no enabled minutes available (thanks @philnee)
+
+## 0.8.2
+
+* Add range selection using ``range`` prop to datepicker (thanks @afifsohaili)
+
+### Fixes
+
+* Fix #1624 autosizing slider into container (thanks @yxngl)
+* Fix #1625 Buefy global name in UMD format
+* Fix #1626 include CSS files as side effects (thanks @modularcoder)
+
+## 0.8.1
+
+### New features
+
+Add ``show-week-number`` prop to datepicker (thanks @quadra-diffusion)
+
+### Fixes
+
+* Fix navbar internal implementation (thanks @wanxe)
+* Fix field component when slot is empty
+* Revert breaking change ``v-on:$listeners`` to internal native select of select
+* Fix #1616 upload check on change when single (thanks @yxngl)
+* Fix #1619 incorrect minute display format for 12 hour using timepicker
+* Fix #1620 navbar SSR support
+
+## 0.8.0
+
+### Breaking changes
+
+* Change path to import individual components, like:
+```javascript
+import { Table } from 'buefy'
+Vue.use(Table)
+```
+* Change path to import components to use outside main vue instance, like:
+```javascript
+// see Toast, Snackbar, Modal, Dialog, Loading and Notification doc pages for more examples
+import { ToastProgrammatic as Toast } from 'buefy'
+Toast.open('Toasty!')
+```
+* Fix #1268 add ``$buefy`` namespace for each programmatic components
+```javascript
+// see Toast, Snackbar, Modal, Dialog, Loading and Notification doc pages for more examples
+this.$buefy.toast.open('Toasty!')
+```
+* Fix #1137 hide hoverable dropdown menu after click
+* Fix #1529 pagination ellipsis behavior (thanks @service-paradis)
+* Fix #1550 improve the default behavior for clickable steps (thanks @service-paradis)
+* Fix #1586 focus issue to radio, checkbox and switch (thanks @yxngl)
+* Add ``v-on:$listeners`` to internal native select of select component
+* Remove ``span`` around default b-table-column slot (thanks @service-paradis)
+
+### New features
+
+* **New component: Slider**, [see docs](https://buefy.org/documentation/slider) (thanks @yxngl)
+* **New component: Navbar**, [see docs](https://buefy.org/documentation/navbar) (thanks @wanxe)
+* **New component: Progress Bar**, [see docs](https://buefy.org/documentation/progress) (thanks @service-paradis)
+* Improve to tree shaking using ESM format
+* Add ``header`` slot to table column
+* Add ``defaultTooltipDelay`` constructor option (thanks @service-paradis)
+* Add ``sort-icon`` and ``sort-icon-size`` props to table (@modularcoder)
+* Add ``default-minutes`` and ``default-seconds`` to timepicker
+* Add ``focusable`` prop to dropdown (thanks @service-paradis)
+* Add ``mouseenter `` and ``mouseleave`` events to table (thanks @afm-sayem)
+* Add ``rounded`` and ``outlined`` prop to switch (thanks @service-paradis)
+* Add ``aria-close-label`` prop to taginput (thanks @yxngl)
+* Add ``has-counter`` prop to taginput (thanks @dejangeci)
+
+### Fixes
+
+* Fix #1541 emit `input` event when change step (thanks @service-paradis)
+* Fix #1544 years select datepicker when max/min being passed
+* Fix #1565 datepicker programmatically on mobile
+* Fix #1576 label-position prop using numberinput component (thanks @service-paradis)
+* Fix #1591 datepicker on mobile using different timezone
+* Fix issues on delete last selected element and on reset upload (thanks @it-fm)
+
+## 0.7.10
+
+* Fix #1536 build error using Sass customization
+* Fix menu component example on codepen and/or simple html page
+
+## 0.7.9
+
+### New features
+
+* **New component: Menu**, [see docs](https://buefy.org/documentation/menu)
+* Add ``custom-class`` prop to modal (thanks @CobraClutch)
+* Add ``delay`` prop to tooltip (thanks @service-paradis)
+* Add ``checkbox-position`` prop to table (thanks @service-paradis)
+* Add ``pagination-position`` prop to table (thanks @service-paradis)
+
+### Fixes
+
+* Fix build errors using typescript and return type of snackbar and notification
+* Fix upload on iOS
+* Fix native timepicker when ``enable-seconds``
+* Fix #1515 toggle datepicker programmatically
+* Fix #1516 month picker on iOS
+* Fix #1526 timepicker default parser
+
 ## 0.7.8
 
 ### New features

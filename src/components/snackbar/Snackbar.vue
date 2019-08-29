@@ -46,9 +46,9 @@ export default {
     },
     methods: {
         /**
-            * Click listener.
-            * Call action prop before closing (from Mixin).
-            */
+        * Click listener.
+        * Call action prop before closing (from Mixin).
+        */
         action() {
             this.onAction()
             this.close()

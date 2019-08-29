@@ -1,8 +1,9 @@
 <template>
     <td
         v-if="visible"
-        :class="rootClasses">
-        <span><slot/></span>
+        :class="rootClasses"
+        :data-label="label">
+        <slot/>
     </td>
 </template>
 
@@ -13,7 +14,7 @@ export default {
         label: String,
         customKey: [String, Number],
         field: String,
-        meta: [String, Number, Boolean, Function, Object, Array, Symbol],
+        meta: [String, Number, Boolean, Function, Object, Array],
         width: [Number, String],
         numeric: Boolean,
         centered: Boolean,

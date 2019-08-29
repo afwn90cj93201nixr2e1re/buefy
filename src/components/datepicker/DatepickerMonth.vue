@@ -130,7 +130,7 @@ export default {
                     const disabledDate = this.unselectableDates[i]
                     validity.push(
                         day.getFullYear() !== disabledDate.getFullYear() ||
-                        day.getMonth() !== disabledDate.getMonth()
+                            day.getMonth() !== disabledDate.getMonth()
                     )
                 }
             }
