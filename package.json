@@ -42,7 +42,14 @@
     "build:scss": "node-sass --output-style expanded src/scss/buefy-build.scss | node ./build/banner.js > dist/buefy.css && cleancss -o dist/buefy.min.css dist/buefy.css",
     "build:scss:watch": "node-sass src/scss/buefy-build.scss --w",
     "build:lib": "npm run build:js && npm run build:scss",
-    "build:lib:watch": "concurrently \"npm run build:js:watch\" \"npm run build:scss:watch \" ",
+	
+	"this is for custom build with webpack, merge it everytime":"as is",
+	"build:scss_":"node-sass src/scss/buefy-build.scss dist/buefy.css --output-style expanded",
+	"build:scss_min":"cleancss -o dist/buefy.min.css dist/buefy.css",
+    "build:webpack": "node build/prodonly/build-lib.js && npm run build:scss_ && npm run build:scss_min",
+	"_this is for custom build with webpack, merge it everytime":"as is",
+	
+	"build:lib:watch": "concurrently \"npm run build:js:watch\" \"npm run build:scss:watch \" ",
     "build:docs": "node build/build.js",
     "build": "npm run build:lib && npm run build:docs",
     "cov": "./node_modules/codcov/bin/codcov"
@@ -134,7 +141,7 @@
     "rollup-plugin-terser": "4.0.4",
     "rollup-plugin-vue": "5.0.0",
     "scrollreveal": "3.3.6",
-    "vee-validate": "2.1.0-beta.9",
+    "vee-validate": "2.1.0-beta.9"
   },
   "engines": {
     "node": ">= 4.0.0",

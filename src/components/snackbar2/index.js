@@ -33,7 +33,7 @@ const SnackbarProgrammatic2 = {
 
 const Plugin = {
     install(Vue) {
-        registerComponentProgrammatic(Vue, '$snackbar2', SnackbarProgrammatic2)
+        registerComponentProgrammatic(Vue, 'snackbar2', SnackbarProgrammatic2)
     }
 }
 
@@ -42,5 +42,5 @@ use(Plugin)
 export default Plugin
 
 export {
-    SnackbarProgrammatic2 as Snackbar2
+    SnackbarProgrammatic2
 }
