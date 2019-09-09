@@ -1,17 +1,30 @@
 # Buefy Changelog
 
+## 0.8.4
+
+### New features
+
+* Add style props (``is-boxed``, etc) to navbar and navbarcomponent
+
+### Fixes
+
+* Fix #1744 icon component using vue-fontawesome
+
 ## 0.8.3
 
 ### New features
 
-Add ``customIconPacks`` constructor option to use custom icon packs (thanks @service-paradis)
-Add ``can-close`` prop to dropdown (thanks @service-paradis)
-Add ``close-on-click`` prop to form navbar (thanks @wanxe)
-Add ``icon-prev`` and ``icon-next`` props to datepicker, steps and pagination  (thanks @service-paradis)
-Add ``lazy`` prop to slider (thanks @yxngl)
-Add ``dragging``, ``dragstart`` and ``dragend`` events to slider (thanks @yxngl)
-Add ``setValidity`` method to form components (thanks @GerryWilko)
+* Add ``customIconPacks`` constructor option to use custom icon packs (thanks @service-paradis)
+* Add ``can-close`` prop to dropdown (thanks @service-paradis)
+* Add ``close-on-click`` prop to form navbar (thanks @wanxe)
+* Add ``icon-prev`` and ``icon-next`` props to datepicker, steps and pagination  (thanks @service-paradis)
+* Add ``lazy`` prop to slider (thanks @yxngl)
+* Add ``dragging``, ``dragstart`` and ``dragend`` events to slider (thanks @yxngl)
+* Add ``setValidity`` method to form components (thanks @GerryWilko)
+* Add ``hours-label`` and ``minutes-label`` props to clockpicker
+* Improve steps look on mobile (thanks @service-paradis)
 * #1677 Add ``wrapper-class`` prop to navbar (thanks @wanxe)
+* #1712 Add navbardropdown component
 
 ### Fixes
 
@@ -21,6 +34,7 @@ Add ``setValidity`` method to form components (thanks @GerryWilko)
 * Fix pagination compatibility using IE 11 (thanks @service-paradis)
 * Fix set active menu item on click when tag is ``router-link``
 * Fix navbar adding incorrect class to body when fixed at top/bottom (thanks @Silvea12)
+* Fix datepicker height using different size, it'll show always 6 weeks for each month
 * Fix #1646 navbar item when tag prop is ``router-link`` (thanks @wanxe)
 * Fix #1648 modal becomes clipped using switch (thanks @yxngl)
 * Fix #1670 simple upload on IE 11
