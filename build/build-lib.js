@@ -1,14 +1,11 @@
-
 process.env.NODE_ENV = 'production'
 
 var ora = require('ora')
 var rm = require('rimraf')
 var path = require('path')
-var chalk = require('chalk')
 var webpack = require('webpack')
 var config = require('../config')
 var webpackConfig = require('./webpack.lib.conf')
-
 var spinner = ora('building for library...')
 spinner.start()
 
@@ -16,15 +13,15 @@ rm(path.join(config.lib.assetsRoot, config.lib.assetsSubDirectory), err => {
   if (err) throw err
 
   var configs = [
-    webpackConfig({
-      minimize: true
+	webpackConfig({
+      minimize: true//Make minimize build
+    }),
+	webpackConfig({
+      minimize: false//Call without minimize
     }),
     webpackConfig({
-      minimize: false
-    }),
-    webpackConfig({
-      components: true,
-      minimize: true
+      components: true,//Create separate components
+      minimize: true//With minimize
     })
   ]
 
@@ -57,4 +54,3 @@ rm(path.join(config.lib.assetsRoot, config.lib.assetsSubDirectory), err => {
   })
   
 })
- 

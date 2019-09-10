@@ -4,7 +4,7 @@
   "scripts": {
     "build:scss_": "node-sass src/scss/buefy-build.scss dist/buefy.css --output-style expanded",
     "build:scss_min": "cleancss -o dist/buefy.min.css dist/buefy.css",
-    "build": "node build/prodonly/build-lib.js && npm run build:scss_ && npm run build:scss_min"
+    "build": "node build/build-lib.js && npm run build:scss_ && npm run build:scss_min"
   },
   "dependencies": {
     "bulma": "0.7.5"
