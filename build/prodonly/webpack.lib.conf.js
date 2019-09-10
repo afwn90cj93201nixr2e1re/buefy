@@ -5,13 +5,8 @@ var fs = require('fs')
 var config = require('../../config')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-//var OptimizeJsPlugin = require('optimize-js-plugin')
-var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 const UglifyJsPlugin = require('terser-webpack-plugin');
-//var i = 0;
-
 
 function getFilename(ext, minimize) {
   return '[name]' + (minimize ? '.min' : '') + ext
@@ -46,13 +41,6 @@ module.exports = function(options) {
 		maxEntrypointSize: 1512000,
 		maxAssetSize: 1512000
 	},
-    module: {
-      rules: utils.styleLoaders({
-        sourceMap: false,
-        extract: true,
-        minimize: options.minimize
-      })
-    },
     externals: {
       vue: {
         commonjs: 'vue',
@@ -72,10 +60,6 @@ module.exports = function(options) {
       new webpack.DefinePlugin({
         'process.env': config.lib.env
       }),
-      // extract css into its own file
-      new ExtractTextPlugin({
-        filename: utils.assetsLibPath(getFilename('.css', options.minimize))
-      }),
       new webpack.optimize.ModuleConcatenationPlugin()
     ]
   })
@@ -86,20 +70,8 @@ module.exports = function(options) {
 				sourceMap: false
 			})]
 	  };
-/*     webpackConfig.plugins.push(
-      new OptimizeJsPlugin({
-        sourceMap: false
-      })
-    ) */
     webpackConfig.plugins.push(
       new webpack.optimize.OccurrenceOrderPlugin()
-    )
-    webpackConfig.plugins.push(
-      new OptimizeCSSPlugin({
-        cssProcessorOptions: {
-          safe: true
-        }
-      })
     )
   }
 

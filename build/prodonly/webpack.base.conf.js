@@ -27,13 +27,7 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-			loaders: utils.cssLoaders({
-				sourceMap: true,
-				extract: true
-			})
-		}
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,

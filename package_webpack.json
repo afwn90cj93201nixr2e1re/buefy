@@ -1,0 +1,50 @@
+{
+  "name": "buefy",
+  "version": "0.8.3",
+  "scripts": {
+    "build:scss_": "node-sass src/scss/buefy-build.scss dist/buefy.css --output-style expanded",
+    "build:scss_min": "cleancss -o dist/buefy.min.css dist/buefy.css",
+    "build": "node build/prodonly/build-lib.js && npm run build:scss_ && npm run build:scss_min"
+  },
+  "dependencies": {
+    "bulma": "0.7.5"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
+    "@babel/plugin-proposal-function-sent": "^7.5.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.2.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/register": "^7.6.0",
+    "autoprefixer": "9.6.0",
+    "babel-loader": "^8.0.6",
+    "clean-css-cli": "4.3.0",
+    "cross-env": "5.2.0",
+    "cross-spawn": "6.0.5",
+    "css-loader": "3.0.0",
+    "file-loader": "4.0.0",
+    "node-sass": "4.12.0",
+    "ora": "3.4.0",
+    "rimraf": "2.6.3",
+    "sass-loader": "7.1.0",
+    "terser-webpack-plugin": "^1.4.1",
+    "url-loader": "2.0.0",
+    "vue": "2.6.10",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "4.35.0",
+    "webpack-merge": "4.2.1"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
