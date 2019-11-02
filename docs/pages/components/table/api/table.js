@@ -444,6 +444,16 @@ export default [
                 name: '<code>toggleDetails</code>',
                 description: 'Toggle row detail if table is <code>detailed</code>',
                 parameters: '<code>row: Object</code>'
+            },
+            {
+                name: '<code>openDetailRow</code>',
+                description: 'Open row detail if table is <code>detailed</code>',
+                parameters: '<code>row: Object</code>'
+            },
+            {
+                name: '<code>closeDetailRow</code>',
+                description: 'Close row detail if table is <code>detailed</code>',
+                parameters: '<code>row: Object</code>'
             }
         ]
     },
@@ -519,7 +529,14 @@ export default [
                 type: 'Function (a: Object, b: Object, isAsc: Boolean)',
                 values: '—',
                 default: '—'
-            }
+            },
+            {
+                name: '<code>searchable</code>',
+                description: 'Add a input below the header to filter data',
+                type: 'Boolean',
+                values: '—',
+                default: '<code>false</code>'
+            },
         ],
         slots: [
             {
